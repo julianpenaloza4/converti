@@ -2,140 +2,868 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b1020">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f6f5ff">
 <title>Converti — Conversor de unidades</title>
+
 <style>
-:root{
-  --bg:#f5f7fb;--card:#fff;--text:#101828;--muted:#667085;--line:#e5e7eb;
-  --accent:#6d5dfc;--accent2:#8b7cff;--soft:#f0edff;--danger:#ef4444;
-  --shadow:0 18px 50px rgba(16,24,40,.10);--radius:24px;
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
-*{box-sizing:border-box} body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:
-radial-gradient(circle at 10% 0%,#e9e5ff 0,transparent 28%),var(--bg);color:var(--text)}
-button,input,select{font:inherit} button{cursor:pointer;border:0}
-.app{max-width:1120px;margin:auto;padding:28px 18px 48px}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
-.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:15px;
-background:linear-gradient(135deg,var(--accent),#a38cff);color:#fff;display:grid;place-items:center;
-font-size:23px;font-weight:800;box-shadow:0 10px 25px #6d5dfc35}.brand h1{margin:0;font-size:23px}.brand span{color:var(--muted);font-size:12px}
-.icon{width:42px;height:42px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:18px}
-.hero{padding:18px 2px 24px}.hero h2{font-size:clamp(32px,6vw,52px);letter-spacing:-2px;margin:0 0 8px}
-.hero p{margin:0;color:var(--muted);font-size:16px}
-.layout{display:grid;grid-template-columns:1fr 310px;gap:22px}
-.main,.side{background:rgba(255,255,255,.86);backdrop-filter:blur(14px);border:1px solid #ffffffaa;box-shadow:var(--shadow);border-radius:var(--radius)}
-.main{padding:22px}.side{padding:20px;height:max-content}
-.categories{display:flex;gap:9px;overflow:auto;padding:2px 0 15px;scrollbar-width:none}.categories::-webkit-scrollbar{display:none}
-.cat{white-space:nowrap;padding:10px 14px;border-radius:13px;background:#f7f7fa;color:#475467;border:1px solid var(--line)}
-.cat.active{background:var(--soft);color:var(--accent);border-color:#d9d3ff;font-weight:700}
-.card{border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:6px}
-.select-label{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em}
-.row{display:grid;grid-template-columns:1fr 54px 1fr;gap:10px;align-items:end}
-select,input{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:14px;color:var(--text);outline:none}
-select:focus,input:focus{border-color:#aaa0ff;box-shadow:0 0 0 4px #6d5dfc14}
-.swap{height:48px;border-radius:15px;background:#111827;color:#fff;font-size:20px;transition:.2s}
-.swap:hover{transform:rotate(180deg)}
-.value{font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-1px;margin-top:18px}
-.result-line{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.copy{padding:9px 13px;border-radius:11px;background:#f3f4f6;color:#344054}
-.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.quick button{background:#f8f9fc;border:1px solid var(--line);padding:8px 11px;border-radius:10px;color:#475467}
-.section-title{font-weight:800;margin:0 0 14px}.history-item{padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}
-.history-item:last-child{border-bottom:0}.history-item strong{display:block}.empty{color:var(--muted);font-size:14px}
-.side-head{display:flex;justify-content:space-between;align-items:center}.clear{background:none;color:var(--accent);font-size:12px}
-.fav{margin-top:22px}.fav-item{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line)}
-.star{color:#f59e0b}.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:22px}
-.dark{--bg:#0b1020;--card:#121a2b;--text:#f8fafc;--muted:#98a2b3;--line:#263148;--soft:#28234f}
-.dark .cat,.dark select,.dark input,.dark .quick button,.dark .copy,.dark .icon{background:#182235;color:var(--text)}
-.dark .main,.dark .side{background:rgba(18,26,43,.9)}
-@media(max-width:800px){.layout{grid-template-columns:1fr}.side{order:2}.app{padding:18px 14px 35px}.main{padding:16px}.hero{padding-top:10px}.row{grid-template-columns:1fr 46px 1fr}}
-@media(max-width:500px){.row{grid-template-columns:1fr;gap:9px}.swap{width:100%;height:40px}.value{font-size:34px}}
+
+:root{
+  --bg:#f5f4ff;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --primary:#7657f6;
+  --primary2:#9478ff;
+  --border:#e7e5ef;
+  --input:#fafaff;
+  --shadow:0 18px 50px rgba(55,42,120,.10);
+}
+
+body.dark{
+  --bg:#0d0f16;
+  --card:#171a23;
+  --text:#f5f7ff;
+  --muted:#9ca3af;
+  --primary:#8b72ff;
+  --primary2:#a28eff;
+  --border:#292d39;
+  --input:#11141c;
+  --shadow:0 18px 50px rgba(0,0,0,.3);
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
+  transition:.25s;
+}
+
+.app{
+  width:min(100%,760px);
+  margin:auto;
+  padding:calc(22px + env(safe-area-inset-top)) 18px 40px;
+}
+
+/* HEADER */
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:28px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.logo{
+  width:54px;
+  height:54px;
+  border-radius:17px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:white;
+  font-size:29px;
+  font-weight:800;
+  box-shadow:0 12px 28px rgba(118,87,246,.28);
+}
+
+.brand h1{
+  font-size:23px;
+  margin:0;
+  letter-spacing:-.6px;
+}
+
+.brand p{
+  margin:2px 0 0;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.theme{
+  width:48px;
+  height:48px;
+  border-radius:16px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  font-size:21px;
+}
+
+/* HERO */
+
+.hero{
+  margin-bottom:24px;
+}
+
+.hero h2{
+  margin:0;
+  font-size:clamp(36px,9vw,60px);
+  line-height:.98;
+  letter-spacing:-2.8px;
+  max-width:650px;
+}
+
+.hero p{
+  margin:14px 0 0;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.4;
+}
+
+/* CATEGORIES */
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:25px 2px 11px;
+}
+
+.section-title h3{
+  margin:0;
+  font-size:16px;
+}
+
+.section-title span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.categories{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.category{
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  padding:15px 13px;
+  border-radius:18px;
+  text-align:left;
+  font-size:15px;
+  font-weight:650;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.2s;
+}
+
+.category.active{
+  border-color:var(--primary);
+  background:rgba(118,87,246,.10);
+  color:var(--primary);
+}
+
+.category .icon{
+  font-size:21px;
+}
+
+/* CONVERTER */
+
+.converter{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:28px;
+  padding:20px;
+  margin-top:15px;
+  box-shadow:var(--shadow);
+}
+
+.field-label{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:1.3px;
+  margin:4px 3px 8px;
+}
+
+.select-wrap{
+  position:relative;
+}
+
+select,input{
+  width:100%;
+  height:58px;
+  border:1px solid var(--border);
+  border-radius:17px;
+  background:var(--input);
+  color:var(--text);
+  font-size:17px;
+  outline:none;
+  padding:0 16px;
+  appearance:auto;
+}
+
+input{
+  font-size:22px;
+  font-weight:600;
+}
+
+select:focus,input:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(118,87,246,.12);
+}
+
+.swap{
+  width:100%;
+  height:52px;
+  margin:13px 0;
+  border:0;
+  border-radius:16px;
+  background:#101727;
+  color:white;
+  font-size:25px;
+}
+
+body.dark .swap{
+  background:#292d3b;
+}
+
+.result{
+  margin-top:16px;
+  padding:19px;
+  border-radius:20px;
+  background:linear-gradient(135deg,rgba(118,87,246,.12),rgba(148,120,255,.06));
+  border:1px solid rgba(118,87,246,.16);
+}
+
+.result small{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+.result-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:7px;
+}
+
+.result-value{
+  font-size:30px;
+  font-weight:800;
+  letter-spacing:-1px;
+  overflow-wrap:anywhere;
+}
+
+.copy{
+  flex:none;
+  border:0;
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:11px 14px;
+  font-weight:700;
+}
+
+.form-row{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:15px;
+}
+
+.from-block{
+  margin-bottom:2px;
+}
+
+/* HISTORY */
+
+.history{
+  margin-top:26px;
+}
+
+.history-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.history h3{
+  margin:0;
+  font-size:20px;
+}
+
+.clear{
+  border:0;
+  background:transparent;
+  color:var(--primary);
+  font-weight:700;
+}
+
+.history-list{
+  margin-top:12px;
+  display:grid;
+  gap:9px;
+}
+
+.history-item{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:13px 15px;
+}
+
+.history-item strong{
+  display:block;
+  font-size:15px;
+}
+
+.history-item span{
+  display:block;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:3px;
+}
+
+.empty{
+  color:var(--muted);
+  background:var(--card);
+  border:1px dashed var(--border);
+  border-radius:17px;
+  padding:18px;
+  text-align:center;
+  font-size:14px;
+}
+
+/* FOOTER */
+
+footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  padding:30px 0 10px;
+}
+
+/* DESKTOP */
+
+@media(min-width:600px){
+  .categories{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .form-row{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .swap{
+    margin:15px 0;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <div class="app">
-  <header class="top">
-    <div class="brand"><div class="logo">↔</div><div><h1>Converti</h1><span>Conversor inteligente</span></div></div>
-    <button class="icon" id="theme" aria-label="Cambiar tema">☾</button>
-  </header>
 
-  <section class="hero"><h2>Convierte cualquier unidad.</h2><p>Rápido, preciso y pensado para usarlo desde tu celular.</p></section>
-
-  <div class="layout">
-    <main class="main">
-      <div class="categories" id="categories"></div>
-      <div class="card">
-        <div class="row">
-          <div><div class="select-label">De</div><select id="from"></select></div>
-          <button class="swap" id="swap">⇄</button>
-          <div><div class="select-label">A</div><select id="to"></select></div>
-        </div>
-        <div style="margin-top:17px"><div class="select-label">Cantidad</div><input id="amount" type="number" inputmode="decimal" value="1" step="any"></div>
-        <div class="result-line"><div class="value" id="result">—</div><button class="copy" id="copy">Copiar</button></div>
-        <div class="quick" id="quick"></div>
-      </div>
-    </main>
-
-    <aside class="side">
-      <div class="side-head"><h3 class="section-title">Historial</h3><button class="clear" id="clear">Borrar todo</button></div>
-      <div id="history" class="empty">Tus conversiones recientes aparecerán aquí.</div>
-      <div class="fav"><h3 class="section-title">Favoritos</h3>
-        <div class="fav-item"><span>Longitud</span><span class="star">★</span></div>
-        <div class="fav-item"><span>Masa</span><span class="star">★</span></div>
-      </div>
-    </aside>
+<header class="header">
+  <div class="brand">
+    <div class="logo">↔</div>
+    <div>
+      <h1>Converti</h1>
+      <p>Conversor inteligente</p>
+    </div>
   </div>
-  <div class="footer">Converti · Conversión instantánea · Funciona sin recargar la página</div>
+
+  <button class="theme" id="themeBtn" aria-label="Cambiar tema">🌙</button>
+</header>
+
+<section class="hero">
+  <h2>Convierte cualquier unidad.</h2>
+  <p>Rápido, preciso y diseñado para usarlo cómodamente desde tu celular.</p>
+</section>
+
+<div class="section-title">
+  <h3>Categoría</h3>
+  <span id="categoryName">Longitud</span>
+</div>
+
+<div class="categories" id="categories"></div>
+
+<section class="converter">
+
+  <div class="form-row">
+
+    <div class="from-block">
+      <label class="field-label">DE</label>
+      <select id="from"></select>
+    </div>
+
+    <div>
+      <label class="field-label">A</label>
+      <select id="to"></select>
+    </div>
+
+  </div>
+
+  <button class="swap" id="swap">⇄</button>
+
+  <label class="field-label">CANTIDAD</label>
+  <input id="amount" type="number" inputmode="decimal" value="1" placeholder="Escribe una cantidad">
+
+  <div class="result">
+    <small>RESULTADO</small>
+
+    <div class="result-row">
+      <div class="result-value" id="result">—</div>
+      <button class="copy" id="copy">Copiar</button>
+    </div>
+  </div>
+
+</section>
+
+<section class="history">
+
+  <div class="history-head">
+    <h3>Conversiones recientes</h3>
+    <button class="clear" id="clear">Limpiar</button>
+  </div>
+
+  <div class="history-list" id="history"></div>
+
+</section>
+
+<footer>
+  Converti · Conversor de unidades
+</footer>
+
 </div>
 
 <script>
-const data={
- "Longitud":{units:{Metro:1,Kilómetro:1000,Centímetro:.01,Milímetro:.001,Milla:1609.344,Yarda:.9144,Pie:.3048,Pulgada:.0254},quick:["Metro","Kilómetro","Centímetro","Pie","Pulgada"]},
- "Masa":{units:{Kilogramo:1,Gramo:.001,Milígramo:.000001,Tonelada:1000,Libra:.45359237,Onza:.0283495231},quick:["Kilogramo","Gramo","Libra","Onza"]},
- "Temperatura":{units:{Celsius:"C",Fahrenheit:"F",Kelvin:"K"},quick:["Celsius","Fahrenheit","Kelvin"]},
- "Volumen":{units:{Litro:1,Mililitro:.001,Metro³:1000,Galón:3.785411784,Taza:.2365882365},quick:["Litro","Mililitro","Galón","Taza"]},
- "Área":{units:{"Metro²":1,"Kilómetro²":1e6,"Hectárea":1e4,"Centímetro²":1e-4,"Pie²":.09290304},quick:["Metro²","Hectárea","Kilómetro²","Pie²"]},
- "Velocidad":{units:{"km/h":1,"m/s":3.6,"mph":1.609344,"nudo":1.852},quick:["km/h","m/s","mph","nudo"]},
- "Almacenamiento":{units:{Byte:1,"Kilobyte":1024,"Megabyte":1048576,"Gigabyte":1073741824,"Terabyte":1099511627776},quick:["Byte","Kilobyte","Megabyte","Gigabyte"]},
- "Tiempo":{units:{Segundo:1,Minuto:60,Hora:3600,Día:86400,Semana:604800},quick:["Segundo","Minuto","Hora","Día"]},
- "Presión":{units:{Pascal:1,kPa:1000,Bar:100000,PSI:6894.757293,Atmósfera:101325},quick:["Pascal","kPa","Bar","PSI"]}
+
+const units = {
+
+  longitud:{
+    name:"Longitud",
+    icon:"📏",
+    units:{
+      "Milímetros":"mm",
+      "Centímetros":"cm",
+      "Metros":"m",
+      "Kilómetros":"km",
+      "Pulgadas":"in",
+      "Pies":"ft",
+      "Yardas":"yd",
+      "Millas":"mi"
+    },
+    base:{
+      mm:0.001,
+      cm:0.01,
+      m:1,
+      km:1000,
+      in:0.0254,
+      ft:0.3048,
+      yd:0.9144,
+      mi:1609.344
+    }
+  },
+
+  masa:{
+    name:"Masa",
+    icon:"⚖️",
+    units:{
+      "Miligramos":"mg",
+      "Gramos":"g",
+      "Kilogramos":"kg",
+      "Toneladas":"t",
+      "Onzas":"oz",
+      "Libras":"lb"
+    },
+    base:{
+      mg:0.000001,
+      g:0.001,
+      kg:1,
+      t:1000,
+      oz:0.028349523125,
+      lb:0.45359237
+    }
+  },
+
+  temperatura:{
+    name:"Temperatura",
+    icon:"🌡️",
+    units:{
+      "Celsius":"c",
+      "Fahrenheit":"f",
+      "Kelvin":"k"
+    }
+  },
+
+  area:{
+    name:"Área",
+    icon:"📐",
+    units:{
+      "Metros cuadrados":"m2",
+      "Kilómetros cuadrados":"km2",
+      "Centímetros cuadrados":"cm2",
+      "Pies cuadrados":"ft2",
+      "Hectáreas":"ha",
+      "Acres":"acre"
+    },
+    base:{
+      m2:1,
+      km2:1000000,
+      cm2:0.0001,
+      ft2:0.09290304,
+      ha:10000,
+      acre:4046.8564224
+    }
+  },
+
+  volumen:{
+    name:"Volumen",
+    icon:"🧴",
+    units:{
+      "Mililitros":"ml",
+      "Litros":"l",
+      "Metros cúbicos":"m3",
+      "Galones":"gal",
+      "Tazas":"cup"
+    },
+    base:{
+      ml:0.001,
+      l:1,
+      m3:1000,
+      gal:3.785411784,
+      cup:0.2365882365
+    }
+  },
+
+  velocidad:{
+    name:"Velocidad",
+    icon:"🚗",
+    units:{
+      "Metros por segundo":"ms",
+      "Kilómetros por hora":"kmh",
+      "Millas por hora":"mph",
+      "Nudos":"kn"
+    },
+    base:{
+      ms:1,
+      kmh:0.2777777778,
+      mph:0.44704,
+      kn:0.5144444444
+    }
+  },
+
+  tiempo:{
+    name:"Tiempo",
+    icon:"⏱️",
+    units:{
+      "Milisegundos":"ms",
+      "Segundos":"s",
+      "Minutos":"min",
+      "Horas":"h",
+      "Días":"day",
+      "Semanas":"week"
+    },
+    base:{
+      ms:0.001,
+      s:1,
+      min:60,
+      h:3600,
+      day:86400,
+      week:604800
+    }
+  },
+
+  datos:{
+    name:"Datos",
+    icon:"💾",
+    units:{
+      "Bytes":"b",
+      "Kilobytes":"kb",
+      "Megabytes":"mb",
+      "Gigabytes":"gb",
+      "Terabytes":"tb"
+    },
+    base:{
+      b:1,
+      kb:1024,
+      mb:1048576,
+      gb:1073741824,
+      tb:1099511627776
+    }
+  },
+
+  presion:{
+    name:"Presión",
+    icon:"🧪",
+    units:{
+      "Pascales":"pa",
+      "Kilopascales":"kpa",
+      "Bar":"bar",
+      "Atmósferas":"atm",
+      "PSI":"psi"
+    },
+    base:{
+      pa:1,
+      kpa:1000,
+      bar:100000,
+      atm:101325,
+      psi:6894.757293
+    }
+  }
+
 };
-let category="Longitud", history=JSON.parse(localStorage.getItem("convertiHistory")||"[]");
-const $=id=>document.getElementById(id);
-function populateCats(){
-  $("categories").innerHTML=Object.keys(data).map(c=>`<button class="cat ${c===category?"active":""}" data-c="${c}">${c}</button>`).join("");
-  document.querySelectorAll(".cat").forEach(b=>b.onclick=()=>{category=b.dataset.c;populateCats();populateUnits();convert()});
+
+let current="longitud";
+
+const categories=document.getElementById("categories");
+const from=document.getElementById("from");
+const to=document.getElementById("to");
+const amount=document.getElementById("amount");
+const result=document.getElementById("result");
+const historyBox=document.getElementById("history");
+const categoryName=document.getElementById("categoryName");
+
+function buildCategories(){
+
+  categories.innerHTML="";
+
+  Object.entries(units).forEach(([key,data])=>{
+
+    const button=document.createElement("button");
+
+    button.className="category"+(key===current?" active":"");
+
+    button.innerHTML=
+      `<span class="icon">${data.icon}</span>
+       <span>${data.name}</span>`;
+
+    button.onclick=()=>{
+      current=key;
+      categoryName.textContent=data.name;
+      buildCategories();
+      loadUnits();
+      convert();
+    };
+
+    categories.appendChild(button);
+
+  });
+
 }
-function populateUnits(){
-  const names=Object.keys(data[category].units);
-  $("from").innerHTML=names.map(x=>`<option>${x}</option>`).join("");
-  $("to").innerHTML=names.map((x,i)=>`<option ${i===1?"selected":""}>${x}</option>`).join("");
-  $("quick").innerHTML=data[category].quick.map(x=>`<button data-q="${x}">${x}</button>`).join("");
-  document.querySelectorAll(".quick button").forEach(b=>b.onclick=()=>{$("to").value=b.dataset.q;convert()});
+
+function loadUnits(){
+
+  const data=units[current];
+
+  from.innerHTML="";
+  to.innerHTML="";
+
+  Object.entries(data.units).forEach(([name,value])=>{
+
+    from.add(new Option(name,value));
+    to.add(new Option(name,value));
+
+  });
+
+  if(to.options.length>1) to.selectedIndex=1;
+
 }
-function temp(v,a,b){let c=a==="C"?v:a==="F"?(v-32)*5/9:v-273.15;return b==="C"?c:b==="F"?c*9/5+32:c+273.15}
+
+function temperatureConvert(value,fromUnit,toUnit){
+
+  let celsius;
+
+  if(fromUnit==="c") celsius=value;
+  if(fromUnit==="f") celsius=(value-32)*5/9;
+  if(fromUnit==="k") celsius=value-273.15;
+
+  if(toUnit==="c") return celsius;
+  if(toUnit==="f") return celsius*9/5+32;
+  if(toUnit==="k") return celsius+273.15;
+
+}
+
 function convert(){
- const v=parseFloat($("amount").value); if(!Number.isFinite(v)){ $("result").textContent="—";return}
- const a=$("from").value,b=$("to").value;
- let out;
- if(category==="Temperatura") out=temp(v,data[category].units[a],data[category].units[b]);
- else out=v*data[category].units[a]/data[category].units[b];
- const pretty=Math.abs(out)>=1000?out.toLocaleString("es-CO",{maximumFractionDigits:6}):out.toLocaleString("es-CO",{maximumFractionDigits:8});
- $("result").textContent=pretty+" "+b;
+
+  const value=parseFloat(amount.value);
+
+  if(Number.isNaN(value)){
+    result.textContent="—";
+    return;
+  }
+
+  let converted;
+
+  if(current==="temperatura"){
+
+    converted=temperatureConvert(
+      value,
+      from.value,
+      to.value
+    );
+
+  }else{
+
+    const base=units[current].base;
+
+    converted=value*base[from.value]/base[to.value];
+
+  }
+
+  const toName=from.options[to.selectedIndex].text;
+
+  const formatted=new Intl.NumberFormat("es-CO",{
+    maximumFractionDigits:10
+  }).format(converted);
+
+  result.textContent=formatted+" "+toName;
+
 }
-function addHistory(){
- const v=parseFloat($("amount").value);if(!Number.isFinite(v))return;
- const item=`${v} ${$("from").value} → ${$("result").textContent}`;
- history=[item,...history.filter(x=>x!==item)].slice(0,8);localStorage.setItem("convertiHistory",JSON.stringify(history));renderHistory();
+
+function saveHistory(){
+
+  const value=parseFloat(amount.value);
+
+  if(Number.isNaN(value)) return;
+
+  const data=units[current];
+
+  const fromName=from.options[from.selectedIndex].text;
+  const toName=to.options[to.selectedIndex].text;
+
+  let converted;
+
+  if(current==="temperatura"){
+    converted=temperatureConvert(value,from.value,to.value);
+  }else{
+    converted=value*data.base[from.value]/data.base[to.value];
+  }
+
+  const item={
+    text:`${value} ${fromName} → ${converted} ${toName}`,
+    date:new Date().toLocaleTimeString("es-CO",{
+      hour:"2-digit",
+      minute:"2-digit"
+    })
+  };
+
+  let history=JSON.parse(localStorage.getItem("convertiHistory")||"[]");
+
+  history.unshift(item);
+
+  history=history.slice(0,10);
+
+  localStorage.setItem("convertiHistory",JSON.stringify(history));
+
+  renderHistory();
+
 }
-function renderHistory(){$("history").innerHTML=history.length?history.map(x=>`<div class="history-item"><strong>${x}</strong><span>${category}</span></div>`).join(""):`<span class="empty">Tus conversiones recientes aparecerán aquí.</span>`}
-["amount","from","to"].forEach(id=>$(id).addEventListener("input",()=>{convert();}));
-["from","to"].forEach(id=>$(id).addEventListener("change",()=>{convert();addHistory()}));
-$("swap").onclick=()=>{let x=$("from").value;$("from").value=$("to").value;$("to").value=x;convert();addHistory()};
-$("copy").onclick=async()=>{await navigator.clipboard?.writeText($("result").textContent);$("copy").textContent="¡Copiado!";setTimeout(()=>$("copy").textContent="Copiar",1000)};
-$("clear").onclick=()=>{history=[];localStorage.removeItem("convertiHistory");renderHistory()};
-$("theme").onclick=()=>{document.body.classList.toggle("dark");localStorage.setItem("convertiDark",document.body.classList.contains("dark"));$("theme").textContent=document.body.classList.contains("dark")?"☀":"☾"};
-if(localStorage.getItem("convertiDark")==="true"){document.body.classList.add("dark");$("theme").textContent="☀"}
-populateCats();populateUnits();renderHistory();convert();
+
+function renderHistory(){
+
+  let history=JSON.parse(localStorage.getItem("convertiHistory")||"[]");
+
+  if(!history.length){
+
+    historyBox.innerHTML=
+      `<div class="empty">Tus conversiones recientes aparecerán aquí.</div>`;
+
+    return;
+
+  }
+
+  historyBox.innerHTML=history.map(item=>
+    `<div class="history-item">
+      <strong>${item.text}</strong>
+      <span>${item.date}</span>
+    </div>`
+  ).join("");
+
+}
+
+from.addEventListener("change",convert);
+to.addEventListener("change",convert);
+
+amount.addEventListener("input",convert);
+
+amount.addEventListener("change",saveHistory);
+
+document.getElementById("swap").onclick=()=>{
+
+  const temp=from.value;
+
+  from.value=to.value;
+  to.value=temp;
+
+  convert();
+
+};
+
+document.getElementById("copy").onclick=async()=>{
+
+  const text=result.textContent;
+
+  if(text==="—") return;
+
+  try{
+    await navigator.clipboard.writeText(text);
+    document.getElementById("copy").textContent="¡Copiado!";
+    setTimeout(()=>{
+      document.getElementById("copy").textContent="Copiar";
+    },1200);
+  }catch(e){
+    alert("Resultado: "+text);
+  }
+
+};
+
+document.getElementById("clear").onclick=()=>{
+
+  localStorage.removeItem("convertiHistory");
+  renderHistory();
+
+};
+
+document.getElementById("themeBtn").onclick=()=>{
+
+  document.body.classList.toggle("dark");
+
+  const dark=document.body.classList.contains("dark");
+
+  localStorage.setItem("convertiDark",dark);
+
+  document.getElementById("themeBtn").textContent=
+    dark?"☀️":"🌙";
+
+};
+
+if(localStorage.getItem("convertiDark")==="true"){
+
+  document.body.classList.add("dark");
+  document.getElementById("themeBtn").textContent="☀️";
+
+}
+
+buildCategories();
+loadUnits();
+renderHistory();
+convert();
+
 </script>
+
 </body>
 </html>
