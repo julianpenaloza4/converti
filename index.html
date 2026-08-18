@@ -7,6 +7,7 @@
 <title>Converti — Conversor de unidades</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
@@ -161,6 +162,7 @@ body{
   align-items:center;
   gap:10px;
   transition:.2s;
+  cursor:pointer;
 }
 
 .category.active{
@@ -193,11 +195,8 @@ body{
   margin:4px 3px 8px;
 }
 
-.select-wrap{
-  position:relative;
-}
-
-select,input{
+select,
+input{
   width:100%;
   height:58px;
   border:1px solid var(--border);
@@ -207,7 +206,6 @@ select,input{
   font-size:17px;
   outline:none;
   padding:0 16px;
-  appearance:auto;
 }
 
 input{
@@ -215,7 +213,8 @@ input{
   font-weight:600;
 }
 
-select:focus,input:focus{
+select:focus,
+input:focus{
   border-color:var(--primary);
   box-shadow:0 0 0 3px rgba(118,87,246,.12);
 }
@@ -229,6 +228,7 @@ select:focus,input:focus{
   background:#101727;
   color:white;
   font-size:25px;
+  cursor:pointer;
 }
 
 body.dark .swap{
@@ -239,7 +239,11 @@ body.dark .swap{
   margin-top:16px;
   padding:19px;
   border-radius:20px;
-  background:linear-gradient(135deg,rgba(118,87,246,.12),rgba(148,120,255,.06));
+  background:linear-gradient(
+    135deg,
+    rgba(118,87,246,.12),
+    rgba(148,120,255,.06)
+  );
   border:1px solid rgba(118,87,246,.16);
 }
 
@@ -267,13 +271,13 @@ body.dark .swap{
 
 .copy{
   flex:none;
-  border:0;
+  border:1px solid var(--border);
   background:var(--card);
   color:var(--text);
-  border:1px solid var(--border);
   border-radius:13px;
   padding:11px 14px;
   font-weight:700;
+  cursor:pointer;
 }
 
 .form-row{
@@ -282,51 +286,46 @@ body.dark .swap{
   gap:15px;
 }
 
-.from-block{
-  margin-bottom:2px;
-}
-
+/* ========================= */
 /* VECTORES */
+/* ========================= */
 
-.vector-section{
+#vectorConverter{
   display:none;
 }
 
-.vector-section.active{
-  display:block;
-}
-
 .vector-title{
-  margin:0 0 6px;
-  font-size:23px;
-  font-weight:800;
+  margin:0;
+  font-size:25px;
+  letter-spacing:-.5px;
 }
 
 .vector-description{
-  margin:0 0 20px;
   color:var(--muted);
   font-size:14px;
   line-height:1.5;
+  margin:8px 0 20px;
+}
+
+.vector-modes{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:18px;
 }
 
 .vector-mode{
-  display:flex;
-  gap:10px;
-  margin-bottom:20px;
-}
-
-.vector-mode button{
-  flex:1;
-  height:48px;
+  height:50px;
   border:1px solid var(--border);
-  border-radius:15px;
+  border-radius:16px;
   background:var(--input);
   color:var(--text);
-  font-weight:700;
   font-size:15px;
+  font-weight:800;
+  cursor:pointer;
 }
 
-.vector-mode button.active{
+.vector-mode.active{
   background:rgba(118,87,246,.12);
   color:var(--primary);
   border-color:var(--primary);
@@ -335,19 +334,19 @@ body.dark .swap{
 .vector-container{
   display:grid;
   grid-template-columns:1fr;
-  gap:15px;
+  gap:14px;
 }
 
 .vector-card{
   border:1px solid var(--border);
-  background:var(--input);
   border-radius:20px;
-  padding:16px;
+  background:var(--input);
+  padding:17px;
 }
 
 .vector-card h4{
-  margin:0 0 13px;
-  font-size:17px;
+  margin:0 0 14px;
+  font-size:18px;
 }
 
 .vector-inputs{
@@ -356,17 +355,17 @@ body.dark .swap{
   gap:8px;
 }
 
-.vector-input-group label{
+.vector-input label{
   display:block;
   color:var(--muted);
   font-size:12px;
-  font-weight:700;
+  font-weight:800;
   margin:0 0 5px 3px;
 }
 
-.vector-input-group input{
+.vector-input input{
   height:50px;
-  padding:0 10px;
+  padding:0 8px;
   text-align:center;
   font-size:18px;
 }
@@ -378,18 +377,23 @@ body.dark .swap{
   margin-top:18px;
 }
 
-.vector-operation{
-  min-height:58px;
+.vector-button{
+  height:58px;
   border:0;
   border-radius:17px;
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  background:linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary2)
+  );
   color:white;
   font-size:16px;
   font-weight:800;
-  transition:.2s;
+  cursor:pointer;
+  transition:.15s;
 }
 
-.vector-operation:active{
+.vector-button:active{
   transform:scale(.97);
 }
 
@@ -398,17 +402,22 @@ body.dark .swap{
   height:50px;
   margin-top:10px;
   border:1px solid var(--border);
-  border-radius:15px;
+  border-radius:16px;
   background:var(--card);
   color:var(--text);
   font-weight:700;
+  cursor:pointer;
 }
 
 .vector-result{
   margin-top:18px;
   padding:20px;
   border-radius:20px;
-  background:linear-gradient(135deg,rgba(118,87,246,.12),rgba(148,120,255,.06));
+  background:linear-gradient(
+    135deg,
+    rgba(118,87,246,.12),
+    rgba(148,120,255,.06)
+  );
   border:1px solid rgba(118,87,246,.16);
 }
 
@@ -419,20 +428,24 @@ body.dark .swap{
   letter-spacing:1px;
 }
 
-.vector-result h3{
-  margin:7px 0 0;
-  font-size:27px;
+#vectorResult{
+  margin:8px 0 0;
+  font-size:29px;
   overflow-wrap:anywhere;
 }
 
-.vector-info{
-  margin-top:15px;
-  padding:13px;
-  border-radius:15px;
-  background:rgba(118,87,246,.06);
+.vector-note{
+  margin-top:14px;
   color:var(--muted);
   font-size:12px;
   line-height:1.5;
+  padding:13px;
+  border-radius:14px;
+  background:rgba(118,87,246,.06);
+}
+
+.vector-z{
+  display:none;
 }
 
 /* HISTORY */
@@ -457,6 +470,7 @@ body.dark .swap{
   background:transparent;
   color:var(--primary);
   font-weight:700;
+  cursor:pointer;
 }
 
 .history-list{
@@ -515,15 +529,12 @@ footer{
     grid-template-columns:1fr 1fr;
   }
 
-  .swap{
-    margin:15px 0;
-  }
-
   .vector-container{
     grid-template-columns:1fr 1fr;
   }
 
 }
+
 </style>
 </head>
 
@@ -531,29 +542,62 @@ footer{
 
 <div class="app">
 
+<!-- HEADER -->
+
 <header class="header">
+
   <div class="brand">
+
     <div class="logo">↔</div>
+
     <div>
       <h1>Converti</h1>
       <p>Conversor inteligente</p>
     </div>
+
   </div>
 
-  <button class="theme" id="themeBtn" aria-label="Cambiar tema">🌙</button>
+  <button
+    class="theme"
+    id="themeBtn"
+    aria-label="Cambiar tema"
+  >
+    🌙
+  </button>
+
 </header>
 
+<!-- HERO -->
+
 <section class="hero">
+
   <h2>Convierte cualquier unidad.</h2>
-  <p>Rápido, preciso y diseñado para usarlo cómodamente desde tu celular.</p>
+
+  <p>
+    Rápido, preciso y diseñado para usarlo
+    cómodamente desde tu celular.
+  </p>
+
 </section>
 
+<!-- CATEGORY -->
+
 <div class="section-title">
+
   <h3>Categoría</h3>
-  <span id="categoryName">Longitud</span>
+
+  <span id="categoryName">
+    Longitud
+  </span>
+
 </div>
 
-<div class="categories" id="categories"></div>
+<div
+  class="categories"
+  id="categories"
+></div>
+
+<!-- CONVERTER -->
 
 <section class="converter">
 
@@ -563,21 +607,38 @@ footer{
 
     <div class="form-row">
 
-      <div class="from-block">
-        <label class="field-label">DE</label>
+      <div>
+
+        <label class="field-label">
+          DE
+        </label>
+
         <select id="from"></select>
+
       </div>
 
       <div>
-        <label class="field-label">A</label>
+
+        <label class="field-label">
+          A
+        </label>
+
         <select id="to"></select>
+
       </div>
 
     </div>
 
-    <button class="swap" id="swap">⇄</button>
+    <button
+      class="swap"
+      id="swap"
+    >
+      ⇄
+    </button>
 
-    <label class="field-label">CANTIDAD</label>
+    <label class="field-label">
+      CANTIDAD
+    </label>
 
     <input
       id="amount"
@@ -589,39 +650,71 @@ footer{
 
     <div class="result">
 
-      <small>RESULTADO</small>
+      <small>
+        RESULTADO
+      </small>
 
       <div class="result-row">
-        <div class="result-value" id="result">—</div>
-        <button class="copy" id="copy">Copiar</button>
+
+        <div
+          class="result-value"
+          id="result"
+        >
+          —
+        </div>
+
+        <button
+          class="copy"
+          id="copy"
+        >
+          Copiar
+        </button>
+
       </div>
 
     </div>
 
   </div>
 
+  <!-- ====================== -->
   <!-- OPERACIONES CON VECTORES -->
+  <!-- ====================== -->
 
-  <div class="vector-section" id="vectorSection">
+  <div id="vectorConverter">
 
-    <h3 class="vector-title">Operaciones con vectores</h3>
+    <h3 class="vector-title">
+      🧭 Operaciones con vectores
+    </h3>
 
     <p class="vector-description">
-      Introduce las componentes de los vectores A y B y selecciona
-      la operación que deseas realizar.
+
+      Introduce las componentes de los vectores
+      A y B. Puedes trabajar con vectores en
+      dos o tres dimensiones.
+
     </p>
 
-    <div class="vector-mode">
+    <!-- 2D / 3D -->
 
-      <button id="mode2D" class="active">
+    <div class="vector-modes">
+
+      <button
+        class="vector-mode active"
+        id="btn2D"
+      >
         Vector 2D
       </button>
 
-      <button id="mode3D">
+      <button
+        class="vector-mode"
+        id="btn3D"
+      >
         Vector 3D
       </button>
 
     </div>
+
+    <!-- VECTORES -->
 
     <div class="vector-container">
 
@@ -629,23 +722,58 @@ footer{
 
       <div class="vector-card">
 
-        <h4>Vector A</h4>
+        <h4>
+          Vector A
+        </h4>
 
         <div class="vector-inputs">
 
-          <div class="vector-input-group">
-            <label>X</label>
-            <input id="ax" type="number" step="any" value="0">
+          <div class="vector-input">
+
+            <label>
+              X
+            </label>
+
+            <input
+              id="ax"
+              type="number"
+              step="any"
+              value="0"
+            >
+
           </div>
 
-          <div class="vector-input-group">
-            <label>Y</label>
-            <input id="ay" type="number" step="any" value="0">
+          <div class="vector-input">
+
+            <label>
+              Y
+            </label>
+
+            <input
+              id="ay"
+              type="number"
+              step="any"
+              value="0"
+            >
+
           </div>
 
-          <div class="vector-input-group vector-z">
-            <label>Z</label>
-            <input id="az" type="number" step="any" value="0">
+          <div
+            class="vector-input vector-z"
+            id="azContainer"
+          >
+
+            <label>
+              Z
+            </label>
+
+            <input
+              id="az"
+              type="number"
+              step="any"
+              value="0"
+            >
+
           </div>
 
         </div>
@@ -656,23 +784,58 @@ footer{
 
       <div class="vector-card">
 
-        <h4>Vector B</h4>
+        <h4>
+          Vector B
+        </h4>
 
         <div class="vector-inputs">
 
-          <div class="vector-input-group">
-            <label>X</label>
-            <input id="bx" type="number" step="any" value="0">
+          <div class="vector-input">
+
+            <label>
+              X
+            </label>
+
+            <input
+              id="bx"
+              type="number"
+              step="any"
+              value="0"
+            >
+
           </div>
 
-          <div class="vector-input-group">
-            <label>Y</label>
-            <input id="by" type="number" step="any" value="0">
+          <div class="vector-input">
+
+            <label>
+              Y
+            </label>
+
+            <input
+              id="by"
+              type="number"
+              step="any"
+              value="0"
+            >
+
           </div>
 
-          <div class="vector-input-group vector-z">
-            <label>Z</label>
-            <input id="bz" type="number" step="any" value="0">
+          <div
+            class="vector-input vector-z"
+            id="bzContainer"
+          >
+
+            <label>
+              Z
+            </label>
+
+            <input
+              id="bz"
+              type="number"
+              step="any"
+              value="0"
+            >
+
           </div>
 
         </div>
@@ -681,33 +844,56 @@ footer{
 
     </div>
 
+    <!-- OPERATIONS -->
+
     <div class="vector-buttons">
 
-      <button class="vector-operation" onclick="vectorOperation('sum')">
+      <button
+        class="vector-button"
+        id="sumVector"
+      >
         ➕ Sumar
       </button>
 
-      <button class="vector-operation" onclick="vectorOperation('subtract')">
+      <button
+        class="vector-button"
+        id="subtractVector"
+      >
         ➖ Restar
       </button>
 
-      <button class="vector-operation" onclick="vectorOperation('multiply')">
+      <button
+        class="vector-button"
+        id="multiplyVector"
+      >
         ✖️ Multiplicar
       </button>
 
-      <button class="vector-operation" onclick="vectorOperation('divide')">
+      <button
+        class="vector-button"
+        id="divideVector"
+      >
         ➗ Dividir
       </button>
 
     </div>
 
-    <button class="vector-clear" id="clearVectors">
+    <!-- LIMPIAR -->
+
+    <button
+      class="vector-clear"
+      id="clearVectors"
+    >
       Limpiar vectores
     </button>
 
+    <!-- RESULTADO -->
+
     <div class="vector-result">
 
-      <small>RESULTADO</small>
+      <small>
+        RESULTADO
+      </small>
 
       <h3 id="vectorResult">
         Selecciona una operación
@@ -715,16 +901,37 @@ footer{
 
     </div>
 
-    <div class="vector-info">
+    <div class="vector-note">
 
-      <strong>Nota:</strong>
-      la multiplicación y división se realizan
-      componente a componente.
+      <strong>¿Cómo funciona?</strong>
+
+      <br><br>
+
+      Suma:
+      A + B
+
+      <br>
+
+      Resta:
+      A − B
+
+      <br>
+
+      Multiplicación:
+      A × B componente a componente
+
+      <br>
+
+      División:
+      A ÷ B componente a componente
 
       <br><br>
 
       Ejemplo:
-      <strong>(2,4) × (3,5) = (6,20)</strong>
+
+      <strong>
+        (2,4) × (3,5) = (6,20)
+      </strong>
 
     </div>
 
@@ -732,16 +939,33 @@ footer{
 
 </section>
 
+<!-- HISTORY -->
+
 <section class="history">
 
   <div class="history-head">
-    <h3>Conversiones recientes</h3>
-    <button class="clear" id="clear">Limpiar</button>
+
+    <h3>
+      Conversiones recientes
+    </h3>
+
+    <button
+      class="clear"
+      id="clear"
+    >
+      Limpiar
+    </button>
+
   </div>
 
-  <div class="history-list" id="history"></div>
+  <div
+    class="history-list"
+    id="history"
+  ></div>
 
 </section>
+
+<!-- FOOTER -->
 
 <footer>
   Converti · Conversor de unidades
@@ -751,11 +975,16 @@ footer{
 
 <script>
 
+/* ========================= */
+/* UNIDADES */
+/* ========================= */
+
 const units = {
 
   longitud:{
     name:"Longitud",
     icon:"📏",
+
     units:{
       "Milímetros":"mm",
       "Centímetros":"cm",
@@ -766,6 +995,7 @@ const units = {
       "Yardas":"yd",
       "Millas":"mi"
     },
+
     base:{
       mm:0.001,
       cm:0.01,
@@ -776,11 +1006,13 @@ const units = {
       yd:0.9144,
       mi:1609.344
     }
+
   },
 
   masa:{
     name:"Masa",
     icon:"⚖️",
+
     units:{
       "Miligramos":"mg",
       "Gramos":"g",
@@ -789,6 +1021,7 @@ const units = {
       "Onzas":"oz",
       "Libras":"lb"
     },
+
     base:{
       mg:0.000001,
       g:0.001,
@@ -797,21 +1030,25 @@ const units = {
       oz:0.028349523125,
       lb:0.45359237
     }
+
   },
 
   temperatura:{
     name:"Temperatura",
     icon:"🌡️",
+
     units:{
       "Celsius":"c",
       "Fahrenheit":"f",
       "Kelvin":"k"
     }
+
   },
 
   area:{
     name:"Área",
     icon:"📐",
+
     units:{
       "Metros cuadrados":"m2",
       "Kilómetros cuadrados":"km2",
@@ -820,6 +1057,7 @@ const units = {
       "Hectáreas":"ha",
       "Acres":"acre"
     },
+
     base:{
       m2:1,
       km2:1000000,
@@ -828,11 +1066,13 @@ const units = {
       ha:10000,
       acre:4046.8564224
     }
+
   },
 
   volumen:{
     name:"Volumen",
     icon:"🧴",
+
     units:{
       "Mililitros":"ml",
       "Litros":"l",
@@ -840,6 +1080,7 @@ const units = {
       "Galones":"gal",
       "Tazas":"cup"
     },
+
     base:{
       ml:0.001,
       l:1,
@@ -847,28 +1088,33 @@ const units = {
       gal:3.785411784,
       cup:0.2365882365
     }
+
   },
 
   velocidad:{
     name:"Velocidad",
     icon:"🚗",
+
     units:{
       "Metros por segundo":"ms",
       "Kilómetros por hora":"kmh",
       "Millas por hora":"mph",
       "Nudos":"kn"
     },
+
     base:{
       ms:1,
       kmh:0.2777777778,
       mph:0.44704,
       kn:0.5144444444
     }
+
   },
 
   tiempo:{
     name:"Tiempo",
     icon:"⏱️",
+
     units:{
       "Milisegundos":"ms",
       "Segundos":"s",
@@ -877,6 +1123,7 @@ const units = {
       "Días":"day",
       "Semanas":"week"
     },
+
     base:{
       ms:0.001,
       s:1,
@@ -885,11 +1132,13 @@ const units = {
       day:86400,
       week:604800
     }
+
   },
 
   datos:{
     name:"Datos",
     icon:"💾",
+
     units:{
       "Bytes":"b",
       "Kilobytes":"kb",
@@ -897,6 +1146,7 @@ const units = {
       "Gigabytes":"gb",
       "Terabytes":"tb"
     },
+
     base:{
       b:1,
       kb:1024,
@@ -904,11 +1154,13 @@ const units = {
       gb:1073741824,
       tb:1099511627776
     }
+
   },
 
   presion:{
     name:"Presión",
     icon:"🧪",
+
     units:{
       "Pascales":"pa",
       "Kilopascales":"kpa",
@@ -916,6 +1168,7 @@ const units = {
       "Atmósferas":"atm",
       "PSI":"psi"
     },
+
     base:{
       pa:1,
       kpa:1000,
@@ -923,6 +1176,7 @@ const units = {
       atm:101325,
       psi:6894.757293
     }
+
   },
 
   vectores:{
@@ -932,65 +1186,118 @@ const units = {
 
 };
 
+
+/* ========================= */
+/* VARIABLES */
+/* ========================= */
+
 let current="longitud";
+
 let vectorDimension=2;
 
-const categories=document.getElementById("categories");
-const from=document.getElementById("from");
-const to=document.getElementById("to");
-const amount=document.getElementById("amount");
-const result=document.getElementById("result");
-const historyBox=document.getElementById("history");
-const categoryName=document.getElementById("categoryName");
 
-const normalConverter=document.getElementById("normalConverter");
-const vectorSection=document.getElementById("vectorSection");
+/* ========================= */
+/* ELEMENTOS */
+/* ========================= */
+
+const categories=
+  document.getElementById("categories");
+
+const from=
+  document.getElementById("from");
+
+const to=
+  document.getElementById("to");
+
+const amount=
+  document.getElementById("amount");
+
+const result=
+  document.getElementById("result");
+
+const historyBox=
+  document.getElementById("history");
+
+const categoryName=
+  document.getElementById("categoryName");
+
+const normalConverter=
+  document.getElementById("normalConverter");
+
+const vectorConverter=
+  document.getElementById("vectorConverter");
+
+
+/* ========================= */
+/* CATEGORÍAS */
+/* ========================= */
 
 function buildCategories(){
 
   categories.innerHTML="";
 
-  Object.entries(units).forEach(([key,data])=>{
+  Object.entries(units).forEach(
+    ([key,data])=>{
 
-    const button=document.createElement("button");
+      const button=
+        document.createElement("button");
 
-    button.className=
-      "category"+(key===current?" active":"");
+      button.className=
+        "category"+
+        (key===current?" active":"");
 
-    button.innerHTML=
-      `<span class="icon">${data.icon}</span>
-       <span>${data.name}</span>`;
+      button.innerHTML=
+        `<span class="icon">
+          ${data.icon}
+        </span>
+        <span>
+          ${data.name}
+        </span>`;
 
-    button.onclick=()=>{
+      button.onclick=()=>{
 
-      current=key;
+        current=key;
 
-      categoryName.textContent=data.name;
+        categoryName.textContent=
+          data.name;
 
-      buildCategories();
+        buildCategories();
 
-      if(current==="vectores"){
+        if(key==="vectores"){
 
-        normalConverter.style.display="none";
-        vectorSection.classList.add("active");
+          normalConverter.style.display=
+            "none";
 
-      }else{
+          vectorConverter.style.display=
+            "block";
 
-        normalConverter.style.display="block";
-        vectorSection.classList.remove("active");
+        }else{
 
-        loadUnits();
-        convert();
+          normalConverter.style.display=
+            "block";
 
-      }
+          vectorConverter.style.display=
+            "none";
 
-    };
+          loadUnits();
 
-    categories.appendChild(button);
+          convert();
 
-  });
+        }
+
+      };
+
+      categories.appendChild(button);
+
+    }
+  );
 
 }
+
+
+/* ========================= */
+/* CARGAR UNIDADES */
+/* ========================= */
 
 function loadUnits(){
 
@@ -999,19 +1306,38 @@ function loadUnits(){
   from.innerHTML="";
   to.innerHTML="";
 
-  Object.entries(data.units).forEach(([name,value])=>{
+  Object.entries(data.units).forEach(
+    ([name,value])=>{
 
-    from.add(new Option(name,value));
-    to.add(new Option(name,value));
+      from.add(
+        new Option(name,value)
+      );
 
-  });
+      to.add(
+        new Option(name,value)
+      );
 
-  if(to.options.length>1)
+    }
+  );
+
+  if(to.options.length>1){
+
     to.selectedIndex=1;
+
+  }
 
 }
 
-function temperatureConvert(value,fromUnit,toUnit){
+
+/* ========================= */
+/* TEMPERATURA */
+/* ========================= */
+
+function temperatureConvert(
+  value,
+  fromUnit,
+  toUnit
+){
 
   let celsius;
 
@@ -1035,16 +1361,23 @@ function temperatureConvert(value,fromUnit,toUnit){
 
 }
 
+
+/* ========================= */
+/* CONVERTIR */
+/* ========================= */
+
 function convert(){
 
   if(current==="vectores")
     return;
 
-  const value=parseFloat(amount.value);
+  const value=
+    parseFloat(amount.value);
 
   if(Number.isNaN(value)){
 
     result.textContent="—";
+
     return;
 
   }
@@ -1053,51 +1386,71 @@ function convert(){
 
   if(current==="temperatura"){
 
-    converted=temperatureConvert(
-      value,
-      from.value,
-      to.value
-    );
+    converted=
+      temperatureConvert(
+        value,
+        from.value,
+        to.value
+      );
 
   }else{
 
-    const base=units[current].base;
+    const base=
+      units[current].base;
 
     converted=
-      value*base[from.value]/base[to.value];
+      value*
+      base[from.value]/
+      base[to.value];
 
   }
 
   const toName=
-    to.options[to.selectedIndex].text;
+    to.options[
+      to.selectedIndex
+    ].text;
 
   const formatted=
-    new Intl.NumberFormat("es-CO",{
-      maximumFractionDigits:10
-    }).format(converted);
+    new Intl.NumberFormat(
+      "es-CO",
+      {
+        maximumFractionDigits:10
+      }
+    ).format(converted);
 
   result.textContent=
     formatted+" "+toName;
 
 }
 
+
+/* ========================= */
+/* HISTORIAL */
+/* ========================= */
+
 function saveHistory(){
 
   if(current==="vectores")
     return;
 
-  const value=parseFloat(amount.value);
+  const value=
+    parseFloat(amount.value);
 
   if(Number.isNaN(value))
     return;
 
-  const data=units[current];
+  const data=
+    units[current];
 
   const fromName=
-    from.options[from.selectedIndex].text;
+    from.options[
+      from.selectedIndex
+    ].text;
 
   const toName=
-    to.options[to.selectedIndex].text;
+    to.options[
+      to.selectedIndex
+    ].text;
 
   let converted;
 
@@ -1113,7 +1466,9 @@ function saveHistory(){
   }else{
 
     converted=
-      value*data.base[from.value]/data.base[to.value];
+      value*
+      data.base[from.value]/
+      data.base[to.value];
 
   }
 
@@ -1123,21 +1478,27 @@ function saveHistory(){
       `${value} ${fromName} → ${converted} ${toName}`,
 
     date:
-      new Date().toLocaleTimeString("es-CO",{
-        hour:"2-digit",
-        minute:"2-digit"
-      })
+      new Date().toLocaleTimeString(
+        "es-CO",
+        {
+          hour:"2-digit",
+          minute:"2-digit"
+        }
+      )
 
   };
 
   let history=
     JSON.parse(
-      localStorage.getItem("convertiHistory")||"[]"
+      localStorage.getItem(
+        "convertiHistory"
+      )||"[]"
     );
 
   history.unshift(item);
 
-  history=history.slice(0,10);
+  history=
+    history.slice(0,10);
 
   localStorage.setItem(
     "convertiHistory",
@@ -1148,18 +1509,22 @@ function saveHistory(){
 
 }
 
+
 function renderHistory(){
 
   let history=
     JSON.parse(
-      localStorage.getItem("convertiHistory")||"[]"
+      localStorage.getItem(
+        "convertiHistory"
+      )||"[]"
     );
 
   if(!history.length){
 
     historyBox.innerHTML=
       `<div class="empty">
-        Tus conversiones recientes aparecerán aquí.
+        Tus conversiones recientes
+        aparecerán aquí.
       </div>`;
 
     return;
@@ -1167,271 +1532,521 @@ function renderHistory(){
   }
 
   historyBox.innerHTML=
-    history.map(item=>
+    history.map(
+      item=>
       `<div class="history-item">
-        <strong>${item.text}</strong>
-        <span>${item.date}</span>
+
+        <strong>
+          ${item.text}
+        </strong>
+
+        <span>
+          ${item.date}
+        </span>
+
       </div>`
     ).join("");
 
 }
 
-/* VECTORES */
 
-function getVectorValues(){
+/* ========================= */
+/* FUNCIONES DE VECTORES */
+/* ========================= */
 
-  const ax=parseFloat(
-    document.getElementById("ax").value
-  ) || 0;
-
-  const ay=parseFloat(
-    document.getElementById("ay").value
-  ) || 0;
-
-  const az=parseFloat(
-    document.getElementById("az").value
-  ) || 0;
-
-  const bx=parseFloat(
-    document.getElementById("bx").value
-  ) || 0;
-
-  const by=parseFloat(
-    document.getElementById("by").value
-  ) || 0;
-
-  const bz=parseFloat(
-    document.getElementById("bz").value
-  ) || 0;
+function getVector(){
 
   return {
-    A:[ax,ay,az],
-    B:[bx,by,bz]
+
+    A:[
+      Number(
+        document.getElementById("ax").value
+      ) || 0,
+
+      Number(
+        document.getElementById("ay").value
+      ) || 0,
+
+      Number(
+        document.getElementById("az").value
+      ) || 0
+    ],
+
+    B:[
+      Number(
+        document.getElementById("bx").value
+      ) || 0,
+
+      Number(
+        document.getElementById("by").value
+      ) || 0,
+
+      Number(
+        document.getElementById("bz").value
+      ) || 0
+    ]
+
   };
 
 }
 
-function formatNumber(number){
 
-  if(Number.isInteger(number))
-    return number;
+function cleanNumber(number){
 
-  return Number(number.toFixed(10));
+  if(
+    Math.abs(number) < 0.0000000001
+  ){
+
+    return 0;
+
+  }
+
+  return Number(
+    number.toFixed(10)
+  );
 
 }
+
 
 function formatVector(vector){
 
   if(vectorDimension===2){
 
-    return `(${formatNumber(vector[0])}, ${formatNumber(vector[1])})`;
+    return `(
+      ${cleanNumber(vector[0])},
+      ${cleanNumber(vector[1])}
+    )`;
 
   }
 
-  return `(${formatNumber(vector[0])}, ${formatNumber(vector[1])}, ${formatNumber(vector[2])})`;
+  return `(
+    ${cleanNumber(vector[0])},
+    ${cleanNumber(vector[1])},
+    ${cleanNumber(vector[2])}
+  )`;
 
 }
 
-function vectorOperation(operation){
 
-  const vectors=getVectorValues();
+/* ========================= */
+/* OPERACIÓN VECTORIAL */
+/* ========================= */
 
-  const A=vectors.A;
-  const B=vectors.B;
+function calculateVector(operation){
 
-  let answer=[];
+  const vectors=
+    getVector();
+
+  const A=
+    vectors.A;
+
+  const B=
+    vectors.B;
+
+  let answer;
+
+
+  /* SUMA */
 
   if(operation==="sum"){
 
     answer=[
+
       A[0]+B[0],
+
       A[1]+B[1],
+
       A[2]+B[2]
+
     ];
 
   }
+
+
+  /* RESTA */
 
   if(operation==="subtract"){
 
     answer=[
+
       A[0]-B[0],
+
       A[1]-B[1],
+
       A[2]-B[2]
+
     ];
 
   }
+
+
+  /* MULTIPLICACIÓN */
 
   if(operation==="multiply"){
 
     answer=[
+
       A[0]*B[0],
+
       A[1]*B[1],
+
       A[2]*B[2]
+
     ];
 
   }
+
+
+  /* DIVISIÓN */
 
   if(operation==="divide"){
 
     if(
       B[0]===0 ||
       B[1]===0 ||
-      (vectorDimension===3 && B[2]===0)
+      (
+        vectorDimension===3 &&
+        B[2]===0
+      )
     ){
 
-      document.getElementById("vectorResult").textContent=
-        "No se puede dividir entre 0";
+      document.getElementById(
+        "vectorResult"
+      ).textContent=
+        "Error: no se puede dividir entre 0";
 
       return;
 
     }
 
     answer=[
+
       A[0]/B[0],
+
       A[1]/B[1],
+
       A[2]/B[2]
+
     ];
 
   }
 
-  document.getElementById("vectorResult").textContent=
+
+  document.getElementById(
+    "vectorResult"
+  ).textContent=
     formatVector(answer);
 
 }
 
-function setVectorDimension(dimension){
 
-  vectorDimension=dimension;
+/* ========================= */
+/* BOTONES DE VECTORES */
+/* ========================= */
 
-  const zInputs=
-    document.querySelectorAll(".vector-z");
+document.getElementById(
+  "sumVector"
+).onclick=()=>{
 
-  zInputs.forEach(element=>{
+  calculateVector("sum");
 
-    element.style.display=
-      dimension===3 ? "block":"none";
+};
 
-  });
 
-  document.getElementById("mode2D")
-    .classList.toggle("active",dimension===2);
+document.getElementById(
+  "subtractVector"
+).onclick=()=>{
 
-  document.getElementById("mode3D")
-    .classList.toggle("active",dimension===3);
+  calculateVector("subtract");
 
-  document.getElementById("vectorResult").textContent=
+};
+
+
+document.getElementById(
+  "multiplyVector"
+).onclick=()=>{
+
+  calculateVector("multiply");
+
+};
+
+
+document.getElementById(
+  "divideVector"
+).onclick=()=>{
+
+  calculateVector("divide");
+
+};
+
+
+/* ========================= */
+/* CAMBIAR 2D / 3D */
+/* ========================= */
+
+function setDimension(dimension){
+
+  vectorDimension=
+    dimension;
+
+  const zElements=
+    document.querySelectorAll(
+      ".vector-z"
+    );
+
+  zElements.forEach(
+    element=>{
+
+      element.style.display=
+        dimension===3
+        ?"block"
+        :"none";
+
+    }
+  );
+
+  document.getElementById(
+    "btn2D"
+  ).classList.toggle(
+    "active",
+    dimension===2
+  );
+
+  document.getElementById(
+    "btn3D"
+  ).classList.toggle(
+    "active",
+    dimension===3
+  );
+
+  document.getElementById(
+    "vectorResult"
+  ).textContent=
     "Selecciona una operación";
 
 }
 
-document.getElementById("mode2D").onclick=()=>{
-  setVectorDimension(2);
+
+document.getElementById(
+  "btn2D"
+).onclick=()=>{
+
+  setDimension(2);
+
 };
 
-document.getElementById("mode3D").onclick=()=>{
-  setVectorDimension(3);
+
+document.getElementById(
+  "btn3D"
+).onclick=()=>{
+
+  setDimension(3);
+
 };
 
-document.getElementById("clearVectors").onclick=()=>{
 
-  document.getElementById("ax").value=0;
-  document.getElementById("ay").value=0;
-  document.getElementById("az").value=0;
+/* ========================= */
+/* LIMPIAR VECTORES */
+/* ========================= */
 
-  document.getElementById("bx").value=0;
-  document.getElementById("by").value=0;
-  document.getElementById("bz").value=0;
+document.getElementById(
+  "clearVectors"
+).onclick=()=>{
 
-  document.getElementById("vectorResult").textContent=
+  document.getElementById(
+    "ax"
+  ).value=0;
+
+  document.getElementById(
+    "ay"
+  ).value=0;
+
+  document.getElementById(
+    "az"
+  ).value=0;
+
+  document.getElementById(
+    "bx"
+  ).value=0;
+
+  document.getElementById(
+    "by"
+  ).value=0;
+
+  document.getElementById(
+    "bz"
+  ).value=0;
+
+  document.getElementById(
+    "vectorResult"
+  ).textContent=
     "Selecciona una operación";
 
 };
 
+
+/* ========================= */
 /* CONVERSOR */
+/* ========================= */
 
-from.addEventListener("change",convert);
+from.addEventListener(
+  "change",
+  convert
+);
 
-to.addEventListener("change",convert);
+to.addEventListener(
+  "change",
+  convert
+);
 
-amount.addEventListener("input",convert);
+amount.addEventListener(
+  "input",
+  convert
+);
 
-amount.addEventListener("change",saveHistory);
+amount.addEventListener(
+  "change",
+  saveHistory
+);
 
-document.getElementById("swap").onclick=()=>{
 
-  const temp=from.value;
+/* ========================= */
+/* INTERCAMBIAR UNIDADES */
+/* ========================= */
 
-  from.value=to.value;
-  to.value=temp;
+document.getElementById(
+  "swap"
+).onclick=()=>{
+
+  const temp=
+    from.value;
+
+  from.value=
+    to.value;
+
+  to.value=
+    temp;
 
   convert();
 
 };
 
-document.getElementById("copy").onclick=async()=>{
 
-  const text=result.textContent;
+/* ========================= */
+/* COPIAR */
+/* ========================= */
+
+document.getElementById(
+  "copy"
+).onclick=async()=>{
+
+  const text=
+    result.textContent;
 
   if(text==="—")
     return;
 
   try{
 
-    await navigator.clipboard.writeText(text);
+    await navigator.clipboard.writeText(
+      text
+    );
 
-    document.getElementById("copy").textContent=
+    document.getElementById(
+      "copy"
+    ).textContent=
       "¡Copiado!";
 
     setTimeout(()=>{
 
-      document.getElementById("copy").textContent=
+      document.getElementById(
+        "copy"
+      ).textContent=
         "Copiar";
 
     },1200);
 
   }catch(e){
 
-    alert("Resultado: "+text);
+    alert(
+      "Resultado: "+text
+    );
 
   }
 
 };
 
-document.getElementById("clear").onclick=()=>{
 
-  localStorage.removeItem("convertiHistory");
+/* ========================= */
+/* LIMPIAR HISTORIAL */
+/* ========================= */
+
+document.getElementById(
+  "clear"
+).onclick=()=>{
+
+  localStorage.removeItem(
+    "convertiHistory"
+  );
 
   renderHistory();
 
 };
 
-document.getElementById("themeBtn").onclick=()=>{
 
-  document.body.classList.toggle("dark");
+/* ========================= */
+/* MODO OSCURO */
+/* ========================= */
+
+document.getElementById(
+  "themeBtn"
+).onclick=()=>{
+
+  document.body.classList.toggle(
+    "dark"
+  );
 
   const dark=
-    document.body.classList.contains("dark");
+    document.body.classList.contains(
+      "dark"
+    );
 
   localStorage.setItem(
     "convertiDark",
     dark
   );
 
-  document.getElementById("themeBtn").textContent=
-    dark?"☀️":"🌙";
+  document.getElementById(
+    "themeBtn"
+  ).textContent=
+    dark
+    ?"☀️"
+    :"🌙";
 
 };
 
-if(localStorage.getItem("convertiDark")==="true"){
 
-  document.body.classList.add("dark");
+if(
+  localStorage.getItem(
+    "convertiDark"
+  )==="true"
+){
 
-  document.getElementById("themeBtn").textContent=
+  document.body.classList.add(
+    "dark"
+  );
+
+  document.getElementById(
+    "themeBtn"
+  ).textContent=
     "☀️";
 
 }
 
-/* INICIO */
+
+/* ========================= */
+/* INICIAR APLICACIÓN */
+/* ========================= */
 
 buildCategories();
 
@@ -1441,7 +2056,7 @@ renderHistory();
 
 convert();
 
-setVectorDimension(2);
+setDimension(2);
 
 </script>
 
