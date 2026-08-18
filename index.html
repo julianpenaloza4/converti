@@ -1,2214 +1,332 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#f6f5ff">
-<title>Converti — Conversor de unidades</title>
-
-<style>
-
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-:root{
-  --bg:#f5f4ff;
-  --card:#ffffff;
-  --text:#111827;
-  --muted:#6b7280;
-  --primary:#7657f6;
-  --primary2:#9478ff;
-  --border:#e7e5ef;
-  --input:#fafaff;
-  --shadow:0 18px 50px rgba(55,42,120,.10);
-}
-
-body.dark{
-  --bg:#0d0f16;
-  --card:#171a23;
-  --text:#f5f7ff;
-  --muted:#9ca3af;
-  --primary:#8b72ff;
-  --primary2:#a28eff;
-  --border:#292d39;
-  --input:#11141c;
-  --shadow:0 18px 50px rgba(0,0,0,.3);
-}
-
-body{
-  margin:0;
-  min-height:100vh;
-  background:var(--bg);
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
-  transition:.25s;
-}
-
-button,
-input,
-select{
-  font-family:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-.app{
-  width:min(100%,760px);
-  margin:auto;
-  padding:calc(22px + env(safe-area-inset-top)) 18px 40px;
-}
-
-/* ========================= */
-/* HEADER */
-/* ========================= */
-
-.header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:28px;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:13px;
-}
-
-.logo{
-  width:54px;
-  height:54px;
-  border-radius:17px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-  color:white;
-  font-size:29px;
-  font-weight:800;
-  box-shadow:0 12px 28px rgba(118,87,246,.28);
-}
-
-.brand h1{
-  font-size:23px;
-  margin:0;
-  letter-spacing:-.6px;
-}
-
-.brand p{
-  margin:2px 0 0;
-  color:var(--muted);
-  font-size:14px;
-}
-
-.theme{
-  width:48px;
-  height:48px;
-  border-radius:16px;
-  border:1px solid var(--border);
-  background:var(--card);
-  color:var(--text);
-  font-size:21px;
-}
-
-/* ========================= */
-/* HERO */
-/* ========================= */
-
-.hero{
-  margin-bottom:24px;
-}
-
-.hero h2{
-  margin:0;
-  font-size:clamp(36px,9vw,60px);
-  line-height:.98;
-  letter-spacing:-2.8px;
-  max-width:650px;
-}
-
-.hero p{
-  margin:14px 0 0;
-  color:var(--muted);
-  font-size:18px;
-  line-height:1.4;
-}
-
-/* ========================= */
-/* CATEGORÍAS */
-/* ========================= */
-
-.section-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:25px 2px 11px;
-}
-
-.section-title h3{
-  margin:0;
-  font-size:16px;
-}
-
-.section-title span{
-  color:var(--muted);
-  font-size:13px;
-}
-
-.categories{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
-.category{
-  border:1px solid var(--border);
-  background:var(--card);
-  color:var(--text);
-  padding:15px 13px;
-  border-radius:18px;
-  text-align:left;
-  font-size:15px;
-  font-weight:650;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  transition:.2s;
-}
-
-.category.active{
-  border-color:var(--primary);
-  background:rgba(118,87,246,.10);
-  color:var(--primary);
-}
-
-.category .icon{
-  font-size:21px;
-}
-
-/* ========================= */
-/* CONVERSOR */
-/* ========================= */
-
-.converter{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:28px;
-  padding:20px;
-  margin-top:15px;
-  box-shadow:var(--shadow);
-}
-
-.field-label{
-  display:block;
-  color:var(--muted);
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:1.3px;
-  margin:4px 3px 8px;
-}
-
-select,
-input{
-  width:100%;
-  height:58px;
-  border:1px solid var(--border);
-  border-radius:17px;
-  background:var(--input);
-  color:var(--text);
-  font-size:17px;
-  outline:none;
-  padding:0 16px;
-}
-
-input{
-  font-size:22px;
-  font-weight:600;
-}
-
-select:focus,
-input:focus{
-  border-color:var(--primary);
-  box-shadow:0 0 0 3px rgba(118,87,246,.12);
-}
-
-.swap{
-  width:100%;
-  height:52px;
-  margin:13px 0;
-  border:0;
-  border-radius:16px;
-  background:#101727;
-  color:white;
-  font-size:25px;
-}
-
-body.dark .swap{
-  background:#292d3b;
-}
-
-.result{
-  margin-top:16px;
-  padding:19px;
-  border-radius:20px;
-  background:linear-gradient(
-    135deg,
-    rgba(118,87,246,.12),
-    rgba(148,120,255,.06)
-  );
-  border:1px solid rgba(118,87,246,.16);
-}
-
-.result small{
-  color:var(--muted);
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:1px;
-}
-
-.result-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-top:7px;
-}
-
-.result-value{
-  font-size:30px;
-  font-weight:800;
-  letter-spacing:-1px;
-  overflow-wrap:anywhere;
-}
-
-.copy{
-  flex:none;
-  border:1px solid var(--border);
-  background:var(--card);
-  color:var(--text);
-  border-radius:13px;
-  padding:11px 14px;
-  font-weight:700;
-}
-
-.form-row{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:15px;
-}
-
-/* ========================= */
-/* VECTORES */
-/* ========================= */
-
-#vectorConverter{
-  display:none;
-}
-
-.vector-title{
-  margin:0;
-  font-size:25px;
-  letter-spacing:-.5px;
-}
-
-.vector-description{
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.5;
-  margin:8px 0 20px;
-}
-
-.vector-modes{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-bottom:18px;
-}
-
-.vector-mode{
-  height:50px;
-  border:1px solid var(--border);
-  border-radius:16px;
-  background:var(--input);
-  color:var(--text);
-  font-size:15px;
-  font-weight:800;
-}
-
-.vector-mode.active{
-  background:rgba(118,87,246,.12);
-  color:var(--primary);
-  border-color:var(--primary);
-}
-
-.vector-container{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:14px;
-}
-
-.vector-card{
-  border:1px solid var(--border);
-  border-radius:20px;
-  background:var(--input);
-  padding:17px;
-}
-
-.vector-card h4{
-  margin:0 0 14px;
-  font-size:18px;
-}
-
-.vector-inputs{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-}
-
-.vector-input label{
-  display:block;
-  color:var(--muted);
-  font-size:12px;
-  font-weight:800;
-  margin:0 0 5px 3px;
-}
-
-.vector-input input{
-  height:50px;
-  padding:0 8px;
-  text-align:center;
-  font-size:18px;
-}
-
-.vector-z{
-  display:none;
-}
-
-.vector-buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:18px;
-}
-
-.vector-button{
-  min-height:58px;
-  border:0;
-  border-radius:17px;
-  background:linear-gradient(
-    135deg,
-    var(--primary),
-    var(--primary2)
-  );
-  color:white;
-  font-size:15px;
-  font-weight:800;
-}
-
-.vector-button:active{
-  transform:scale(.97);
-}
-
-.vector-clear{
-  width:100%;
-  height:50px;
-  margin-top:10px;
-  border:1px solid var(--border);
-  border-radius:16px;
-  background:var(--card);
-  color:var(--text);
-  font-weight:700;
-}
-
-.vector-result{
-  margin-top:18px;
-  padding:20px;
-  border-radius:20px;
-  background:linear-gradient(
-    135deg,
-    rgba(118,87,246,.12),
-    rgba(148,120,255,.06)
-  );
-  border:1px solid rgba(118,87,246,.16);
-}
-
-.vector-result small{
-  color:var(--muted);
-  font-size:11px;
-  font-weight:800;
-  letter-spacing:1px;
-}
-
-#vectorResult{
-  margin:8px 0 0;
-  font-size:25px;
-  line-height:1.35;
-  overflow-wrap:anywhere;
-}
-
-.vector-note{
-  margin-top:14px;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.6;
-  padding:14px;
-  border-radius:14px;
-  background:rgba(118,87,246,.06);
-}
-
-.vector-section-title{
-  margin:24px 0 10px;
-  font-size:16px;
-}
-
-.vector-help{
-  margin-top:12px;
-  padding:14px;
-  border-radius:16px;
-  background:var(--input);
-  border:1px solid var(--border);
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
-}
-
-/* ========================= */
-/* HISTORIAL */
-/* ========================= */
-
-.history{
-  margin-top:26px;
-}
-
-.history-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.history h3{
-  margin:0;
-  font-size:20px;
-}
-
-.clear{
-  border:0;
-  background:transparent;
-  color:var(--primary);
-  font-weight:700;
-}
-
-.history-list{
-  margin-top:12px;
-  display:grid;
-  gap:9px;
-}
-
-.history-item{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:17px;
-  padding:13px 15px;
-}
-
-.history-item strong{
-  display:block;
-  font-size:15px;
-}
-
-.history-item span{
-  display:block;
-  color:var(--muted);
-  font-size:13px;
-  margin-top:3px;
-}
-
-.empty{
-  color:var(--muted);
-  background:var(--card);
-  border:1px dashed var(--border);
-  border-radius:17px;
-  padding:18px;
-  text-align:center;
-  font-size:14px;
-}
-
-/* ========================= */
-/* FOOTER */
-/* ========================= */
-
-footer{
-  text-align:center;
-  color:var(--muted);
-  font-size:12px;
-  padding:30px 0 10px;
-}
-
-/* ========================= */
-/* DESKTOP */
-/* ========================= */
-
-@media(min-width:600px){
-
-  .categories{
-    grid-template-columns:repeat(4,1fr);
-  }
-
-  .form-row{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .vector-container{
-    grid-template-columns:1fr 1fr;
-  }
-
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor de Unidades y Vectores</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body {
+      background-color: #f4f7f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+    h2 { text-align: center; color: #2c3e50; margin-top: 0; }
+    
+    /* Navegación por Pestañas */
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      background: none;
+      border: none;
+      font-size: 15px;
+      font-weight: bold;
+      color: #7f8c8d;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+    .tab-btn.active {
+      color: #3498db;
+      border-bottom-color: #3498db;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 6px; font-weight: 600; color: #34495e; font-size: 14px; }
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    button.btn-calc {
+      width: 100%;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    button.btn-calc:hover { background-color: #2980b9; }
+    
+    .result {
+      margin-top: 18px;
+      padding: 15px;
+      background: #e8f8f5;
+      border-left: 5px solid #2ecc71;
+      border-radius: 4px;
+      font-size: 16px;
+      color: #1e8449;
+      line-height: 1.5;
+    }
+    .sub-title {
+      font-weight: bold;
+      margin-top: 15px;
+      margin-bottom: 8px;
+      color: #2c3e50;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 4px;
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="app">
-
-<header class="header">
-
-  <div class="brand">
-
-    <div class="logo">↔</div>
-
-    <div>
-      <h1>Converti</h1>
-      <p>Conversor inteligente</p>
-    </div>
-
+<div class="card">
+  <h2>Física & Matemáticas</h2>
+  
+  <!-- Navegación -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="cambiarPestana('unidades')">Unidades</button>
+    <button class="tab-btn" onclick="cambiarPestana('vectores')">Vectores</button>
   </div>
 
-  <button
-    class="theme"
-    id="themeBtn"
-    aria-label="Cambiar tema"
-  >
-    🌙
-  </button>
-
-</header>
-
-<section class="hero">
-
-  <h2>Convierte cualquier unidad.</h2>
-
-  <p>
-    Rápido, preciso y diseñado para usarlo
-    cómodamente desde tu celular.
-  </p>
-
-</section>
-
-<div class="section-title">
-
-  <h3>Categoría</h3>
-
-  <span id="categoryName">
-    Longitud
-  </span>
-
-</div>
-
-<div
-  class="categories"
-  id="categories"
-></div>
-
-<section class="converter">
-
-  <!-- ========================= -->
-  <!-- CONVERSOR NORMAL -->
-  <!-- ========================= -->
-
-  <div id="normalConverter">
-
-    <div class="form-row">
-
-      <div>
-
-        <label class="field-label">
-          DE
-        </label>
-
-        <select id="from"></select>
-
-      </div>
-
-      <div>
-
-        <label class="field-label">
-          A
-        </label>
-
-        <select id="to"></select>
-
-      </div>
-
+  <!-- PESTAÑA 1: UNIDADES -->
+  <div id="unidades" class="tab-content active">
+    <div class="form-group">
+      <label for="categoria">Categoría:</label>
+      <select id="categoria" onchange="actualizarUnidades()">
+        <option value="longitud">Longitud</option>
+        <option value="temperatura">Temperatura</option>
+        <option value="masa">Masa / Peso</option>
+      </select>
     </div>
 
-    <button
-      class="swap"
-      id="swap"
-    >
-      ⇄
-    </button>
-
-    <label class="field-label">
-      CANTIDAD
-    </label>
-
-    <input
-      id="amount"
-      type="number"
-      inputmode="decimal"
-      value="1"
-      placeholder="Escribe una cantidad"
-    >
-
-    <div class="result">
-
-      <small>
-        RESULTADO
-      </small>
-
-      <div class="result-row">
-
-        <div
-          class="result-value"
-          id="result"
-        >
-          —
-        </div>
-
-        <button
-          class="copy"
-          id="copy"
-        >
-          Copiar
-        </button>
-
-      </div>
-
+    <div class="form-group">
+      <label for="valor">Valor a convertir:</label>
+      <input type="number" id="valor" value="1" step="any">
     </div>
 
+    <div class="grid-2">
+      <div class="form-group">
+        <label for="deUnidad">De:</label>
+        <select id="deUnidad"></select>
+      </div>
+
+      <div class="form-group">
+        <label for="aUnidad">A:</label>
+        <select id="aUnidad"></select>
+      </div>
+    </div>
+
+    <button class="btn-calc" onclick="convertirUnidades()">Convertir</button>
+    <div id="resUnidades" class="result">Selecciona los valores y presiona Convertir.</div>
   </div>
 
-  <!-- ========================= -->
-  <!-- VECTORES -->
-  <!-- ========================= -->
-
-  <div id="vectorConverter">
-
-    <h3 class="vector-title">
-      🧭 Operaciones con vectores
-    </h3>
-
-    <p class="vector-description">
-
-      Introduce las componentes de los vectores
-      A y B. Puedes trabajar con vectores en
-      dos o tres dimensiones.
-
-    </p>
-
-    <div class="vector-modes">
-
-      <button
-        class="vector-mode active"
-        id="btn2D"
-      >
-        Vector 2D
-      </button>
-
-      <button
-        class="vector-mode"
-        id="btn3D"
-      >
-        Vector 3D
-      </button>
-
+  <!-- PESTAÑA 2: VECTORES -->
+  <div id="vectores" class="tab-content">
+    <div class="form-group">
+      <label for="modoVector">Operación con Vectores:</label>
+      <select id="modoVector" onchange="cambiarModoVector()">
+        <option value="polarACartesiano">Polar a Cartesiano (M, θ → X, Y)</option>
+        <option value="cartesianoAPolar">Cartesiano a Polar (X, Y → M, θ)</option>
+        <option value="sumaVectores">Suma de 2 Vectores (V1 + V2)</option>
+      </select>
     </div>
 
-    <div class="vector-container">
-
-      <!-- VECTOR A -->
-
-      <div class="vector-card">
-
-        <h4>
-          Vector A
-        </h4>
-
-        <div class="vector-inputs">
-
-          <div class="vector-input">
-
-            <label>X</label>
-
-            <input
-              id="ax"
-              type="number"
-              step="any"
-              value="0"
-            >
-
-          </div>
-
-          <div class="vector-input">
-
-            <label>Y</label>
-
-            <input
-              id="ay"
-              type="number"
-              step="any"
-              value="0"
-            >
-
-          </div>
-
-          <div
-            class="vector-input vector-z"
-            id="azContainer"
-          >
-
-            <label>Z</label>
-
-            <input
-              id="az"
-              type="number"
-              step="any"
-              value="0"
-            >
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- VECTOR B -->
-
-      <div class="vector-card">
-
-        <h4>
-          Vector B
-        </h4>
-
-        <div class="vector-inputs">
-
-          <div class="vector-input">
-
-            <label>X</label>
-
-            <input
-              id="bx"
-              type="number"
-              step="any"
-              value="0"
-            >
-
-          </div>
-
-          <div class="vector-input">
-
-            <label>Y</label>
-
-            <input
-              id="by"
-              type="number"
-              step="any"
-              value="0"
-            >
-
-          </div>
-
-          <div
-            class="vector-input vector-z"
-            id="bzContainer"
-          >
-
-            <label>Z</label>
-
-            <input
-              id="bz"
-              type="number"
-              step="any"
-              value="0"
-            >
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- OPERACIONES -->
-
-    <h4 class="vector-section-title">
-      Operaciones
-    </h4>
-
-    <div class="vector-buttons">
-
-      <button
-        class="vector-button"
-        id="sumVector"
-      >
-        ➕ Sumar A + B
-      </button>
-
-      <button
-        class="vector-button"
-        id="subtractVector"
-      >
-        ➖ Restar A − B
-      </button>
-
-      <button
-        class="vector-button"
-        id="multiplyVector"
-      >
-        ✖️ Multiplicar
-      </button>
-
-      <button
-        class="vector-button"
-        id="divideVector"
-      >
-        ➗ Dividir
-      </button>
-
-      <button
-        class="vector-button"
-        id="dotVector"
-      >
-        🔵 Producto punto
-      </button>
-
-      <button
-        class="vector-button"
-        id="crossVector"
-      >
-        ✖️ Producto cruz
-      </button>
-
-      <button
-        class="vector-button"
-        id="magnitudeA"
-      >
-        📏 Magnitud A
-      </button>
-
-      <button
-        class="vector-button"
-        id="magnitudeB"
-      >
-        📏 Magnitud B
-      </button>
-
-    </div>
-
-    <button
-      class="vector-clear"
-      id="clearVectors"
-    >
-      🧹 Limpiar vectores
-    </button>
-
-    <!-- RESULTADO -->
-
-    <div class="vector-result">
-
-      <small>
-        RESULTADO
-      </small>
-
-      <h3 id="vectorResult">
-        Selecciona una operación
-      </h3>
-
-    </div>
-
-    <div class="vector-note">
-
-      <strong>Operaciones disponibles</strong>
-
-      <br><br>
-
-      <strong>Suma:</strong>
-      A + B
-
-      <br>
-
-      <strong>Resta:</strong>
-      A − B
-
-      <br>
-
-      <strong>Multiplicación:</strong>
-      componente por componente
-
-      <br>
-
-      <strong>División:</strong>
-      componente por componente
-
-      <br>
-
-      <strong>Producto punto:</strong>
-      A · B
-
-      <br>
-
-      <strong>Producto cruz:</strong>
-      A × B, únicamente para vectores 3D
-
-      <br>
-
-      <strong>Magnitud:</strong>
-      |A| o |B|
-
-    </div>
-
-    <div class="vector-help">
-
-      <strong>Ejemplo 2D</strong>
-
-      <br>
-
-      A = (2, 4)
-
-      <br>
-
-      B = (3, 5)
-
-      <br><br>
-
-      A + B = (5, 9)
-
-      <br>
-
-      A − B = (-1, -1)
-
-      <br>
-
-      A × B = (6, 20)
-
-      <br>
-
-      A ÷ B = (0.6667, 0.8)
-
-      <br>
-
-      A · B = 26
-
-    </div>
-
+    <!-- Campos Dinámicos para Vectores -->
+    <div id="camposVector"></div>
+
+    <button class="btn-calc" onclick="calcularVectores()">Calcular Vector</button>
+    <div id="resVectores" class="result">Ingresa los datos del vector.</div>
   </div>
-
-</section>
-
-<!-- ========================= -->
-<!-- HISTORIAL -->
-<!-- ========================= -->
-
-<section class="history">
-
-  <div class="history-head">
-
-    <h3>
-      Conversiones recientes
-    </h3>
-
-    <button
-      class="clear"
-      id="clear"
-    >
-      Limpiar
-    </button>
-
-  </div>
-
-  <div
-    class="history-list"
-    id="history"
-  ></div>
-
-</section>
-
-<footer>
-  Converti · Conversor de unidades
-</footer>
-
 </div>
 
 <script>
-
-/* ================================================= */
-/* UNIDADES */
-/* ================================================= */
-
-const units = {
-
-  longitud:{
-    name:"Longitud",
-    icon:"📏",
-
-    units:{
-      "Milímetros":"mm",
-      "Centímetros":"cm",
-      "Metros":"m",
-      "Kilómetros":"km",
-      "Pulgadas":"in",
-      "Pies":"ft",
-      "Yardas":"yd",
-      "Millas":"mi"
+  // ==================== CÓDIGO DE UNIDADES ====================
+  const unidades = {
+    longitud: {
+      'm': { nombre: 'Metros (m)', factor: 1 },
+      'km': { nombre: 'Kilómetros (km)', factor: 1000 },
+      'cm': { nombre: 'Centímetros (cm)', factor: 0.01 },
+      'mm': { nombre: 'Milímetros (mm)', factor: 0.001 },
+      'mi': { nombre: 'Millas (mi)', factor: 1609.34 },
+      'ft': { nombre: 'Pies (ft)', factor: 0.3048 },
+      'in': { nombre: 'Pulgadas (in)', factor: 0.0254 }
     },
-
-    base:{
-      mm:0.001,
-      cm:0.01,
-      m:1,
-      km:1000,
-      in:0.0254,
-      ft:0.3048,
-      yd:0.9144,
-      mi:1609.344
-    }
-
-  },
-
-  masa:{
-    name:"Masa",
-    icon:"⚖️",
-
-    units:{
-      "Miligramos":"mg",
-      "Gramos":"g",
-      "Kilogramos":"kg",
-      "Toneladas":"t",
-      "Onzas":"oz",
-      "Libras":"lb"
+    masa: {
+      'kg': { nombre: 'Kilogramos (kg)', factor: 1 },
+      'g': { nombre: 'Gramos (g)', factor: 0.001 },
+      'lb': { nombre: 'Libras (lb)', factor: 0.453592 },
+      'oz': { nombre: 'Onzas (oz)', factor: 0.0283495 }
     },
-
-    base:{
-      mg:0.000001,
-      g:0.001,
-      kg:1,
-      t:1000,
-      oz:0.028349523125,
-      lb:0.45359237
+    temperatura: {
+      'C': { nombre: 'Celsius (°C)' },
+      'F': { nombre: 'Fahrenheit (°F)' },
+      'K': { nombre: 'Kelvin (K)' }
     }
-
-  },
-
-  temperatura:{
-    name:"Temperatura",
-    icon:"🌡️",
-
-    units:{
-      "Celsius":"c",
-      "Fahrenheit":"f",
-      "Kelvin":"k"
-    }
-
-  },
-
-  area:{
-    name:"Área",
-    icon:"📐",
-
-    units:{
-      "Metros cuadrados":"m2",
-      "Kilómetros cuadrados":"km2",
-      "Centímetros cuadrados":"cm2",
-      "Pies cuadrados":"ft2",
-      "Hectáreas":"ha",
-      "Acres":"acre"
-    },
-
-    base:{
-      m2:1,
-      km2:1000000,
-      cm2:0.0001,
-      ft2:0.09290304,
-      ha:10000,
-      acre:4046.8564224
-    }
-
-  },
-
-  volumen:{
-    name:"Volumen",
-    icon:"🧴",
-
-    units:{
-      "Mililitros":"ml",
-      "Litros":"l",
-      "Metros cúbicos":"m3",
-      "Galones":"gal",
-      "Tazas":"cup"
-    },
-
-    base:{
-      ml:0.001,
-      l:1,
-      m3:1000,
-      gal:3.785411784,
-      cup:0.2365882365
-    }
-
-  },
-
-  velocidad:{
-    name:"Velocidad",
-    icon:"🚗",
-
-    units:{
-      "Metros por segundo":"ms",
-      "Kilómetros por hora":"kmh",
-      "Millas por hora":"mph",
-      "Nudos":"kn"
-    },
-
-    base:{
-      ms:1,
-      kmh:0.2777777778,
-      mph:0.44704,
-      kn:0.5144444444
-    }
-
-  },
-
-  tiempo:{
-    name:"Tiempo",
-    icon:"⏱️",
-
-    units:{
-      "Milisegundos":"ms",
-      "Segundos":"s",
-      "Minutos":"min",
-      "Horas":"h",
-      "Días":"day",
-      "Semanas":"week"
-    },
-
-    base:{
-      ms:0.001,
-      s:1,
-      min:60,
-      h:3600,
-      day:86400,
-      week:604800
-    }
-
-  },
-
-  datos:{
-    name:"Datos",
-    icon:"💾",
-
-    units:{
-      "Bytes":"b",
-      "Kilobytes":"kb",
-      "Megabytes":"mb",
-      "Gigabytes":"gb",
-      "Terabytes":"tb"
-    },
-
-    base:{
-      b:1,
-      kb:1024,
-      mb:1048576,
-      gb:1073741824,
-      tb:1099511627776
-    }
-
-  },
-
-  presion:{
-    name:"Presión",
-    icon:"🧪",
-
-    units:{
-      "Pascales":"pa",
-      "Kilopascales":"kpa",
-      "Bar":"bar",
-      "Atmósferas":"atm",
-      "PSI":"psi"
-    },
-
-    base:{
-      pa:1,
-      kpa:1000,
-      bar:100000,
-      atm:101325,
-      psi:6894.757293
-    }
-
-  },
-
-  vectores:{
-    name:"Vectores",
-    icon:"🧭"
-  }
-
-};
-
-
-/* ================================================= */
-/* VARIABLES */
-/* ================================================= */
-
-let current="longitud";
-let vectorDimension=2;
-
-
-/* ================================================= */
-/* ELEMENTOS */
-/* ================================================= */
-
-const categories=
-  document.getElementById("categories");
-
-const from=
-  document.getElementById("from");
-
-const to=
-  document.getElementById("to");
-
-const amount=
-  document.getElementById("amount");
-
-const result=
-  document.getElementById("result");
-
-const historyBox=
-  document.getElementById("history");
-
-const categoryName=
-  document.getElementById("categoryName");
-
-const normalConverter=
-  document.getElementById("normalConverter");
-
-const vectorConverter=
-  document.getElementById("vectorConverter");
-
-
-/* ================================================= */
-/* CATEGORÍAS */
-/* ================================================= */
-
-function buildCategories(){
-
-  categories.innerHTML="";
-
-  Object.entries(units).forEach(
-    ([key,data])=>{
-
-      const button=
-        document.createElement("button");
-
-      button.className=
-        "category"+
-        (key===current ? " active" : "");
-
-      button.innerHTML=
-        `
-        <span class="icon">
-          ${data.icon}
-        </span>
-
-        <span>
-          ${data.name}
-        </span>
-        `;
-
-      button.onclick=()=>{
-
-        current=key;
-
-        categoryName.textContent=
-          data.name;
-
-        buildCategories();
-
-        if(key==="vectores"){
-
-          normalConverter.style.display=
-            "none";
-
-          vectorConverter.style.display=
-            "block";
-
-        }else{
-
-          normalConverter.style.display=
-            "block";
-
-          vectorConverter.style.display=
-            "none";
-
-          loadUnits();
-
-          convert();
-
-        }
-
-      };
-
-      categories.appendChild(button);
-
-    }
-  );
-
-}
-
-
-/* ================================================= */
-/* CARGAR UNIDADES */
-/* ================================================= */
-
-function loadUnits(){
-
-  const data=units[current];
-
-  from.innerHTML="";
-  to.innerHTML="";
-
-  Object.entries(data.units).forEach(
-    ([name,value])=>{
-
-      from.add(
-        new Option(name,value)
-      );
-
-      to.add(
-        new Option(name,value)
-      );
-
-    }
-  );
-
-  if(to.options.length>1){
-    to.selectedIndex=1;
-  }
-
-}
-
-
-/* ================================================= */
-/* TEMPERATURA */
-/* ================================================= */
-
-function temperatureConvert(
-  value,
-  fromUnit,
-  toUnit
-){
-
-  let celsius;
-
-  if(fromUnit==="c")
-    celsius=value;
-
-  if(fromUnit==="f")
-    celsius=(value-32)*5/9;
-
-  if(fromUnit==="k")
-    celsius=value-273.15;
-
-  if(toUnit==="c")
-    return celsius;
-
-  if(toUnit==="f")
-    return celsius*9/5+32;
-
-  if(toUnit==="k")
-    return celsius+273.15;
-
-}
-
-
-/* ================================================= */
-/* CONVERTIR */
-/* ================================================= */
-
-function convert(){
-
-  if(current==="vectores")
-    return;
-
-  const value=
-    parseFloat(amount.value);
-
-  if(Number.isNaN(value)){
-
-    result.textContent="—";
-
-    return;
-
-  }
-
-  let converted;
-
-  if(current==="temperatura"){
-
-    converted=
-      temperatureConvert(
-        value,
-        from.value,
-        to.value
-      );
-
-  }else{
-
-    const base=
-      units[current].base;
-
-    converted=
-      value*
-      base[from.value]/
-      base[to.value];
-
-  }
-
-  const toName=
-    to.options[
-      to.selectedIndex
-    ].text;
-
-  const formatted=
-    new Intl.NumberFormat(
-      "es-CO",
-      {
-        maximumFractionDigits:10
-      }
-    ).format(converted);
-
-  result.textContent=
-    formatted+" "+toName;
-
-}
-
-
-/* ================================================= */
-/* HISTORIAL */
-/* ================================================= */
-
-function saveHistory(){
-
-  if(current==="vectores")
-    return;
-
-  const value=
-    parseFloat(amount.value);
-
-  if(Number.isNaN(value))
-    return;
-
-  const data=
-    units[current];
-
-  const fromName=
-    from.options[
-      from.selectedIndex
-    ].text;
-
-  const toName=
-    to.options[
-      to.selectedIndex
-    ].text;
-
-  let converted;
-
-  if(current==="temperatura"){
-
-    converted=
-      temperatureConvert(
-        value,
-        from.value,
-        to.value
-      );
-
-  }else{
-
-    converted=
-      value*
-      data.base[from.value]/
-      data.base[to.value];
-
-  }
-
-  const item={
-
-    text:
-      `${value} ${fromName} → ${converted} ${toName}`,
-
-    date:
-      new Date().toLocaleTimeString(
-        "es-CO",
-        {
-          hour:"2-digit",
-          minute:"2-digit"
-        }
-      )
-
   };
 
-  let history=
-    JSON.parse(
-      localStorage.getItem(
-        "convertiHistory"
-      ) || "[]"
-    );
+  function actualizarUnidades() {
+    const cat = document.getElementById('categoria').value;
+    const deSelect = document.getElementById('deUnidad');
+    const aSelect = document.getElementById('aUnidad');
+    
+    deSelect.innerHTML = '';
+    aSelect.innerHTML = '';
 
-  history.unshift(item);
+    Object.keys(unidades[cat]).forEach(clave => {
+      deSelect.appendChild(new Option(unidades[cat][clave].nombre, clave));
+      aSelect.appendChild(new Option(unidades[cat][clave].nombre, clave));
+    });
 
-  history=
-    history.slice(0,10);
-
-  localStorage.setItem(
-    "convertiHistory",
-    JSON.stringify(history)
-  );
-
-  renderHistory();
-
-}
-
-
-function renderHistory(){
-
-  let history=
-    JSON.parse(
-      localStorage.getItem(
-        "convertiHistory"
-      ) || "[]"
-    );
-
-  if(!history.length){
-
-    historyBox.innerHTML=
-      `
-      <div class="empty">
-        Tus conversiones recientes
-        aparecerán aquí.
-      </div>
-      `;
-
-    return;
-
+    if (aSelect.options.length > 1) aSelect.selectedIndex = 1;
   }
 
-  historyBox.innerHTML=
-    history.map(
-      item=>
-      `
-      <div class="history-item">
+  function convertirUnidades() {
+    const cat = document.getElementById('categoria').value;
+    const val = parseFloat(document.getElementById('valor').value);
+    const de = document.getElementById('deUnidad').value;
+    const a = document.getElementById('aUnidad').value;
+    const resDiv = document.getElementById('resUnidades');
 
-        <strong>
-          ${item.text}
-        </strong>
+    if (isNaN(val)) return resDiv.textContent = "Por favor ingresa un número válido.";
 
-        <span>
-          ${item.date}
-        </span>
+    let resultado = 0;
+    if (cat === 'temperatura') {
+      let celsius = val;
+      if (de === 'F') celsius = (val - 32) * 5 / 9;
+      if (de === 'K') celsius = val - 273.15;
 
-      </div>
-      `
-    ).join("");
+      if (a === 'C') resultado = celsius;
+      else if (a === 'F') resultado = (celsius * 9 / 5) + 32;
+      else if (a === 'K') resultado = celsius + 273.15;
+    } else {
+      const enBase = val * unidades[cat][de].factor;
+      resultado = enBase / unidades[cat][a].factor;
+    }
 
-}
-
-
-/* ================================================= */
-/* FUNCIONES DE VECTORES */
-/* ================================================= */
-
-function getVectorValues(){
-
-  const A=[
-    Number(document.getElementById("ax").value) || 0,
-    Number(document.getElementById("ay").value) || 0,
-    Number(document.getElementById("az").value) || 0
-  ];
-
-  const B=[
-    Number(document.getElementById("bx").value) || 0,
-    Number(document.getElementById("by").value) || 0,
-    Number(document.getElementById("bz").value) || 0
-  ];
-
-  return {A,B};
-
-}
-
-
-/* ================================================= */
-/* LIMPIAR DECIMALES */
-/* ================================================= */
-
-function cleanNumber(number){
-
-  if(Math.abs(number)<0.0000000001){
-    return 0;
+    resDiv.innerHTML = `<strong>Resultado:</strong><br>${val} ${de} = <b>${resultado.toFixed(4)}</b> ${a}`;
   }
 
-  return Number(number.toFixed(8));
+  // ==================== CÓDIGO DE VECTORES ====================
+  function cambiarModoVector() {
+    const modo = document.getElementById('modoVector').value;
+    const contenedor = document.getElementById('camposVector');
 
-}
-
-
-/* ================================================= */
-/* FORMATEAR VECTOR */
-/* ================================================= */
-
-function formatVector(vector){
-
-  if(vectorDimension===2){
-
-    return `(${cleanNumber(vector[0])}, ${cleanNumber(vector[1])})`;
-
+    if (modo === 'polarACartesiano') {
+      contenedor.innerHTML = `
+        <div class="grid-2">
+          <div class="form-group"><label>Magnitud (|V|):</label><input type="number" id="vMag" value="10" step="any"></div>
+          <div class="form-group"><label>Ángulo θ (°):</label><input type="number" id="vAng" value="45" step="any"></div>
+        </div>`;
+    } else if (modo === 'cartesianoAPolar') {
+      contenedor.innerHTML = `
+        <div class="grid-2">
+          <div class="form-group"><label>Componente X (Vx):</label><input type="number" id="vX" value="3" step="any"></div>
+          <div class="form-group"><label>Componente Y (Vy):</label><input type="number" id="vY" value="4" step="any"></div>
+        </div>`;
+    } else if (modo === 'sumaVectores') {
+      contenedor.innerHTML = `
+        <div class="sub-title">Vector A</div>
+        <div class="grid-2">
+          <div class="form-group"><label>Ax:</label><input type="number" id="ax" value="2" step="any"></div>
+          <div class="form-group"><label>Ay:</label><input type="number" id="ay" value="5" step="any"></div>
+        </div>
+        <div class="sub-title">Vector B</div>
+        <div class="grid-2">
+          <div class="form-group"><label>Bx:</label><input type="number" id="bx" value="4" step="any"></div>
+          <div class="form-group"><label>By:</label><input type="number" id="by" value="-1" step="any"></div>
+        </div>`;
+    }
   }
 
-  return `(${cleanNumber(vector[0])}, ${cleanNumber(vector[1])}, ${cleanNumber(vector[2])})`;
+  function calcularVectores() {
+    const modo = document.getElementById('modoVector').value;
+    const resDiv = document.getElementById('resVectores');
 
-}
+    if (modo === 'polarACartesiano') {
+      const r = parseFloat(document.getElementById('vMag').value);
+      const angDeg = parseFloat(document.getElementById('vAng').value);
+      const rad = angDeg * (Math.PI / 180);
 
+      const vx = r * Math.cos(rad);
+      const vy = r * Math.sin(rad);
 
-/* ================================================= */
-/* MOSTRAR RESULTADO */
-/* ================================================= */
+      resDiv.innerHTML = `
+        <strong>Componentes Rectangulares:</strong><br>
+        Vx = <b>${vx.toFixed(4)}</b><br>
+        Vy = <b>${vy.toFixed(4)}</b><br>
+        <em>Forma vectorial: (${vx.toFixed(2)}i + ${vy.toFixed(2)}j)</em>`;
+    } 
+    else if (modo === 'cartesianoAPolar') {
+      const x = parseFloat(document.getElementById('vX').value);
+      const y = parseFloat(document.getElementById('vY').value);
 
-function showVectorResult(text){
+      const r = Math.sqrt(x*x + y*y);
+      let angDeg = Math.atan2(y, x) * (180 / Math.PI);
+      if (angDeg < 0) angDeg += 360; // Mantener ángulo positivo
 
-  document.getElementById(
-    "vectorResult"
-  ).textContent=text;
+      resDiv.innerHTML = `
+        <strong>Forma Polar:</strong><br>
+        Magnitud (|V|) = <b>${r.toFixed(4)}</b><br>
+        Ángulo (θ) = <b>${angDeg.toFixed(2)}°</b>`;
+    } 
+    else if (modo === 'sumaVectores') {
+      const ax = parseFloat(document.getElementById('ax').value);
+      const ay = parseFloat(document.getElementById('ay').value);
+      const bx = parseFloat(document.getElementById('bx').value);
+      const by = parseFloat(document.getElementById('by').value);
 
-}
+      const rx = ax + bx;
+      const ry = ay + by;
+      const magR = Math.sqrt(rx*rx + ry*ry);
+      let angR = Math.atan2(ry, rx) * (180 / Math.PI);
+      if (angR < 0) angR += 360;
 
+      const prodEscalar = (ax * bx) + (ay * by);
 
-/* ================================================= */
-/* SUMA */
-/* ================================================= */
-
-function sumVectors(){
-
-  const {A,B}=getVectorValues();
-
-  const answer=[
-    A[0]+B[0],
-    A[1]+B[1]
-  ];
-
-  if(vectorDimension===3){
-    answer.push(A[2]+B[2]);
+      resDiv.innerHTML = `
+        <strong>Vector Resultante (R = A + B):</strong><br>
+        Rx = <b>${rx.toFixed(2)}</b>, Ry = <b>${ry.toFixed(2)}</b><br>
+        Magnitud |R| = <b>${magR.toFixed(4)}</b><br>
+        Ángulo θ = <b>${angR.toFixed(2)}°</b><br><br>
+        <strong>Producto Escalar (A · B):</strong> <b>${prodEscalar.toFixed(2)}</b>`;
+    }
   }
 
-  showVectorResult(
-    `A + B = ${formatVector(answer)}`
-  );
-
-}
-
-
-/* ================================================= */
-/* RESTA */
-/* ================================================= */
-
-function subtractVectors(){
-
-  const {A,B}=getVectorValues();
-
-  const answer=[
-    A[0]-B[0],
-    A[1]-B[1]
-  ];
-
-  if(vectorDimension===3){
-    answer.push(A[2]-B[2]);
+  // ==================== NAVEGACIÓN Y CARGA ====================
+  function cambiarPestana(nombrePestana) {
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    
+    document.getElementById(nombrePestana).classList.add('active');
+    event.currentTarget.classList.add('active');
   }
 
-  showVectorResult(
-    `A − B = ${formatVector(answer)}`
-  );
-
-}
-
-
-/* ================================================= */
-/* MULTIPLICACIÓN COMPONENTE A COMPONENTE */
-/* ================================================= */
-
-function multiplyVectors(){
-
-  const {A,B}=getVectorValues();
-
-  const answer=[
-    A[0]*B[0],
-    A[1]*B[1]
-  ];
-
-  if(vectorDimension===3){
-    answer.push(A[2]*B[2]);
-  }
-
-  showVectorResult(
-    `A × B = ${formatVector(answer)}`
-  );
-
-}
-
-
-/* ================================================= */
-/* DIVISIÓN COMPONENTE A COMPONENTE */
-/* ================================================= */
-
-function divideVectors(){
-
-  const {A,B}=getVectorValues();
-
-  if(
-    B[0]===0 ||
-    B[1]===0 ||
-    (vectorDimension===3 && B[2]===0)
-  ){
-
-    showVectorResult(
-      "❌ Error: no se puede dividir entre 0."
-    );
-
-    return;
-
-  }
-
-  const answer=[
-    A[0]/B[0],
-    A[1]/B[1]
-  ];
-
-  if(vectorDimension===3){
-    answer.push(A[2]/B[2]);
-  }
-
-  showVectorResult(
-    `A ÷ B = ${formatVector(answer)}`
-  );
-
-}
-
-
-/* ================================================= */
-/* PRODUCTO PUNTO */
-/* ================================================= */
-
-function dotProduct(){
-
-  const {A,B}=getVectorValues();
-
-  let answer=
-    A[0]*B[0]+
-    A[1]*B[1];
-
-  if(vectorDimension===3){
-
-    answer+=
-      A[2]*B[2];
-
-  }
-
-  showVectorResult(
-    `A · B = ${cleanNumber(answer)}`
-  );
-
-}
-
-
-/* ================================================= */
-/* PRODUCTO CRUZ */
-/* ================================================= */
-
-function crossProduct(){
-
-  if(vectorDimension!==3){
-
-    showVectorResult(
-      "⚠️ El producto cruz requiere vectores 3D."
-    );
-
-    return;
-
-  }
-
-  const {A,B}=getVectorValues();
-
-  const answer=[
-
-    A[1]*B[2]-
-    A[2]*B[1],
-
-    A[2]*B[0]-
-    A[0]*B[2],
-
-    A[0]*B[1]-
-    A[1]*B[0]
-
-  ];
-
-  showVectorResult(
-    `A × B = ${formatVector(answer)}`
-  );
-
-}
-
-
-/* ================================================= */
-/* MAGNITUD */
-/* ================================================= */
-
-function vectorMagnitude(vector){
-
-  let sum=
-    vector[0]**2+
-    vector[1]**2;
-
-  if(vectorDimension===3){
-
-    sum+=vector[2]**2;
-
-  }
-
-  return Math.sqrt(sum);
-
-}
-
-
-function magnitudeA(){
-
-  const {A}=getVectorValues();
-
-  const value=
-    vectorMagnitude(A);
-
-  showVectorResult(
-    `|A| = ${cleanNumber(value)}`
-  );
-
-}
-
-
-function magnitudeB(){
-
-  const {B}=getVectorValues();
-
-  const value=
-    vectorMagnitude(B);
-
-  showVectorResult(
-    `|B| = ${cleanNumber(value)}`
-  );
-
-}
-
-
-/* ================================================= */
-/* BOTONES DE VECTORES */
-/* ================================================= */
-
-document.getElementById(
-  "sumVector"
-).onclick=sumVectors;
-
-document.getElementById(
-  "subtractVector"
-).onclick=subtractVectors;
-
-document.getElementById(
-  "multiplyVector"
-).onclick=multiplyVectors;
-
-document.getElementById(
-  "divideVector"
-).onclick=divideVectors;
-
-document.getElementById(
-  "dotVector"
-).onclick=dotProduct;
-
-document.getElementById(
-  "crossVector"
-).onclick=crossProduct;
-
-document.getElementById(
-  "magnitudeA"
-).onclick=magnitudeA;
-
-document.getElementById(
-  "magnitudeB"
-).onclick=magnitudeB;
-
-
-/* ================================================= */
-/* CAMBIAR 2D / 3D */
-/* ================================================= */
-
-function setDimension(dimension){
-
-  vectorDimension=dimension;
-
-  const zElements=
-    document.querySelectorAll(".vector-z");
-
-  zElements.forEach(element=>{
-
-    element.style.display=
-      dimension===3
-      ? "block"
-      : "none";
-
-  });
-
-  document.getElementById(
-    "btn2D"
-  ).classList.toggle(
-    "active",
-    dimension===2
-  );
-
-  document.getElementById(
-    "btn3D"
-  ).classList.toggle(
-    "active",
-    dimension===3
-  );
-
-  showVectorResult(
-    "Selecciona una operación"
-  );
-
-}
-
-
-document.getElementById(
-  "btn2D"
-).onclick=()=>{
-
-  setDimension(2);
-
-};
-
-
-document.getElementById(
-  "btn3D"
-).onclick=()=>{
-
-  setDimension(3);
-
-};
-
-
-/* ================================================= */
-/* LIMPIAR VECTORES */
-/* ================================================= */
-
-document.getElementById(
-  "clearVectors"
-).onclick=()=>{
-
-  document.getElementById("ax").value=0;
-  document.getElementById("ay").value=0;
-  document.getElementById("az").value=0;
-
-  document.getElementById("bx").value=0;
-  document.getElementById("by").value=0;
-  document.getElementById("bz").value=0;
-
-  showVectorResult(
-    "Selecciona una operación"
-  );
-
-};
-
-
-/* ================================================= */
-/* EVENTOS DEL CONVERSOR */
-/* ================================================= */
-
-from.addEventListener(
-  "change",
-  convert
-);
-
-to.addEventListener(
-  "change",
-  convert
-);
-
-amount.addEventListener(
-  "input",
-  convert
-);
-
-amount.addEventListener(
-  "change",
-  saveHistory
-);
-
-
-/* ================================================= */
-/* INTERCAMBIAR UNIDADES */
-/* ================================================= */
-
-document.getElementById(
-  "swap"
-).onclick=()=>{
-
-  const temp=from.value;
-
-  from.value=to.value;
-  to.value=temp;
-
-  convert();
-
-};
-
-
-/* ================================================= */
-/* COPIAR RESULTADO */
-/* ================================================= */
-
-document.getElementById(
-  "copy"
-).onclick=async()=>{
-
-  const text=result.textContent;
-
-  if(text==="—")
-    return;
-
-  try{
-
-    await navigator.clipboard.writeText(text);
-
-    document.getElementById(
-      "copy"
-    ).textContent="¡Copiado!";
-
-    setTimeout(()=>{
-
-      document.getElementById(
-        "copy"
-      ).textContent="Copiar";
-
-    },1200);
-
-  }catch(e){
-
-    alert(
-      "Resultado: "+text
-    );
-
-  }
-
-};
-
-
-/* ================================================= */
-/* LIMPIAR HISTORIAL */
-/* ================================================= */
-
-document.getElementById(
-  "clear"
-).onclick=()=>{
-
-  localStorage.removeItem(
-    "convertiHistory"
-  );
-
-  renderHistory();
-
-};
-
-
-/* ================================================= */
-/* MODO OSCURO */
-/* ================================================= */
-
-document.getElementById(
-  "themeBtn"
-).onclick=()=>{
-
-  document.body.classList.toggle(
-    "dark"
-  );
-
-  const dark=
-    document.body.classList.contains(
-      "dark"
-    );
-
-  localStorage.setItem(
-    "convertiDark",
-    dark
-  );
-
-  document.getElementById(
-    "themeBtn"
-  ).textContent=
-    dark
-    ? "☀️"
-    : "🌙";
-
-};
-
-
-if(
-  localStorage.getItem(
-    "convertiDark"
-  )==="true"
-){
-
-  document.body.classList.add(
-    "dark"
-  );
-
-  document.getElementById(
-    "themeBtn"
-  ).textContent="☀️";
-
-}
-
-
-/* ================================================= */
-/* INICIAR */
-/* ================================================= */
-
-buildCategories();
-
-loadUnits();
-
-renderHistory();
-
-convert();
-
-setDimension(2);
-
+  // Inicializar la interfaz
+  actualizarUnidades();
+  cambiarModoVector();
 </script>
 
 </body>
