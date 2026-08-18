@@ -286,6 +286,155 @@ body.dark .swap{
   margin-bottom:2px;
 }
 
+/* VECTORES */
+
+.vector-section{
+  display:none;
+}
+
+.vector-section.active{
+  display:block;
+}
+
+.vector-title{
+  margin:0 0 6px;
+  font-size:23px;
+  font-weight:800;
+}
+
+.vector-description{
+  margin:0 0 20px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.5;
+}
+
+.vector-mode{
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.vector-mode button{
+  flex:1;
+  height:48px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:var(--input);
+  color:var(--text);
+  font-weight:700;
+  font-size:15px;
+}
+
+.vector-mode button.active{
+  background:rgba(118,87,246,.12);
+  color:var(--primary);
+  border-color:var(--primary);
+}
+
+.vector-container{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:15px;
+}
+
+.vector-card{
+  border:1px solid var(--border);
+  background:var(--input);
+  border-radius:20px;
+  padding:16px;
+}
+
+.vector-card h4{
+  margin:0 0 13px;
+  font-size:17px;
+}
+
+.vector-inputs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.vector-input-group label{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+  margin:0 0 5px 3px;
+}
+
+.vector-input-group input{
+  height:50px;
+  padding:0 10px;
+  text-align:center;
+  font-size:18px;
+}
+
+.vector-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:18px;
+}
+
+.vector-operation{
+  min-height:58px;
+  border:0;
+  border-radius:17px;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:white;
+  font-size:16px;
+  font-weight:800;
+  transition:.2s;
+}
+
+.vector-operation:active{
+  transform:scale(.97);
+}
+
+.vector-clear{
+  width:100%;
+  height:50px;
+  margin-top:10px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:var(--card);
+  color:var(--text);
+  font-weight:700;
+}
+
+.vector-result{
+  margin-top:18px;
+  padding:20px;
+  border-radius:20px;
+  background:linear-gradient(135deg,rgba(118,87,246,.12),rgba(148,120,255,.06));
+  border:1px solid rgba(118,87,246,.16);
+}
+
+.vector-result small{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+.vector-result h3{
+  margin:7px 0 0;
+  font-size:27px;
+  overflow-wrap:anywhere;
+}
+
+.vector-info{
+  margin-top:15px;
+  padding:13px;
+  border-radius:15px;
+  background:rgba(118,87,246,.06);
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+
 /* HISTORY */
 
 .history{
@@ -357,6 +506,7 @@ footer{
 /* DESKTOP */
 
 @media(min-width:600px){
+
   .categories{
     grid-template-columns:repeat(4,1fr);
   }
@@ -368,6 +518,11 @@ footer{
   .swap{
     margin:15px 0;
   }
+
+  .vector-container{
+    grid-template-columns:1fr 1fr;
+  }
+
 }
 </style>
 </head>
@@ -402,32 +557,177 @@ footer{
 
 <section class="converter">
 
-  <div class="form-row">
+  <!-- CONVERSOR NORMAL -->
 
-    <div class="from-block">
-      <label class="field-label">DE</label>
-      <select id="from"></select>
+  <div id="normalConverter">
+
+    <div class="form-row">
+
+      <div class="from-block">
+        <label class="field-label">DE</label>
+        <select id="from"></select>
+      </div>
+
+      <div>
+        <label class="field-label">A</label>
+        <select id="to"></select>
+      </div>
+
     </div>
 
-    <div>
-      <label class="field-label">A</label>
-      <select id="to"></select>
+    <button class="swap" id="swap">⇄</button>
+
+    <label class="field-label">CANTIDAD</label>
+
+    <input
+      id="amount"
+      type="number"
+      inputmode="decimal"
+      value="1"
+      placeholder="Escribe una cantidad"
+    >
+
+    <div class="result">
+
+      <small>RESULTADO</small>
+
+      <div class="result-row">
+        <div class="result-value" id="result">—</div>
+        <button class="copy" id="copy">Copiar</button>
+      </div>
+
     </div>
 
   </div>
 
-  <button class="swap" id="swap">⇄</button>
+  <!-- OPERACIONES CON VECTORES -->
 
-  <label class="field-label">CANTIDAD</label>
-  <input id="amount" type="number" inputmode="decimal" value="1" placeholder="Escribe una cantidad">
+  <div class="vector-section" id="vectorSection">
 
-  <div class="result">
-    <small>RESULTADO</small>
+    <h3 class="vector-title">Operaciones con vectores</h3>
 
-    <div class="result-row">
-      <div class="result-value" id="result">—</div>
-      <button class="copy" id="copy">Copiar</button>
+    <p class="vector-description">
+      Introduce las componentes de los vectores A y B y selecciona
+      la operación que deseas realizar.
+    </p>
+
+    <div class="vector-mode">
+
+      <button id="mode2D" class="active">
+        Vector 2D
+      </button>
+
+      <button id="mode3D">
+        Vector 3D
+      </button>
+
     </div>
+
+    <div class="vector-container">
+
+      <!-- VECTOR A -->
+
+      <div class="vector-card">
+
+        <h4>Vector A</h4>
+
+        <div class="vector-inputs">
+
+          <div class="vector-input-group">
+            <label>X</label>
+            <input id="ax" type="number" step="any" value="0">
+          </div>
+
+          <div class="vector-input-group">
+            <label>Y</label>
+            <input id="ay" type="number" step="any" value="0">
+          </div>
+
+          <div class="vector-input-group vector-z">
+            <label>Z</label>
+            <input id="az" type="number" step="any" value="0">
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- VECTOR B -->
+
+      <div class="vector-card">
+
+        <h4>Vector B</h4>
+
+        <div class="vector-inputs">
+
+          <div class="vector-input-group">
+            <label>X</label>
+            <input id="bx" type="number" step="any" value="0">
+          </div>
+
+          <div class="vector-input-group">
+            <label>Y</label>
+            <input id="by" type="number" step="any" value="0">
+          </div>
+
+          <div class="vector-input-group vector-z">
+            <label>Z</label>
+            <input id="bz" type="number" step="any" value="0">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="vector-buttons">
+
+      <button class="vector-operation" onclick="vectorOperation('sum')">
+        ➕ Sumar
+      </button>
+
+      <button class="vector-operation" onclick="vectorOperation('subtract')">
+        ➖ Restar
+      </button>
+
+      <button class="vector-operation" onclick="vectorOperation('multiply')">
+        ✖️ Multiplicar
+      </button>
+
+      <button class="vector-operation" onclick="vectorOperation('divide')">
+        ➗ Dividir
+      </button>
+
+    </div>
+
+    <button class="vector-clear" id="clearVectors">
+      Limpiar vectores
+    </button>
+
+    <div class="vector-result">
+
+      <small>RESULTADO</small>
+
+      <h3 id="vectorResult">
+        Selecciona una operación
+      </h3>
+
+    </div>
+
+    <div class="vector-info">
+
+      <strong>Nota:</strong>
+      la multiplicación y división se realizan
+      componente a componente.
+
+      <br><br>
+
+      Ejemplo:
+      <strong>(2,4) × (3,5) = (6,20)</strong>
+
+    </div>
+
   </div>
 
 </section>
@@ -623,11 +923,17 @@ const units = {
       atm:101325,
       psi:6894.757293
     }
+  },
+
+  vectores:{
+    name:"Vectores",
+    icon:"🧭"
   }
 
 };
 
 let current="longitud";
+let vectorDimension=2;
 
 const categories=document.getElementById("categories");
 const from=document.getElementById("from");
@@ -637,6 +943,9 @@ const result=document.getElementById("result");
 const historyBox=document.getElementById("history");
 const categoryName=document.getElementById("categoryName");
 
+const normalConverter=document.getElementById("normalConverter");
+const vectorSection=document.getElementById("vectorSection");
+
 function buildCategories(){
 
   categories.innerHTML="";
@@ -645,18 +954,36 @@ function buildCategories(){
 
     const button=document.createElement("button");
 
-    button.className="category"+(key===current?" active":"");
+    button.className=
+      "category"+(key===current?" active":"");
 
     button.innerHTML=
       `<span class="icon">${data.icon}</span>
        <span>${data.name}</span>`;
 
     button.onclick=()=>{
+
       current=key;
+
       categoryName.textContent=data.name;
+
       buildCategories();
-      loadUnits();
-      convert();
+
+      if(current==="vectores"){
+
+        normalConverter.style.display="none";
+        vectorSection.classList.add("active");
+
+      }else{
+
+        normalConverter.style.display="block";
+        vectorSection.classList.remove("active");
+
+        loadUnits();
+        convert();
+
+      }
+
     };
 
     categories.appendChild(button);
@@ -679,7 +1006,8 @@ function loadUnits(){
 
   });
 
-  if(to.options.length>1) to.selectedIndex=1;
+  if(to.options.length>1)
+    to.selectedIndex=1;
 
 }
 
@@ -687,23 +1015,38 @@ function temperatureConvert(value,fromUnit,toUnit){
 
   let celsius;
 
-  if(fromUnit==="c") celsius=value;
-  if(fromUnit==="f") celsius=(value-32)*5/9;
-  if(fromUnit==="k") celsius=value-273.15;
+  if(fromUnit==="c")
+    celsius=value;
 
-  if(toUnit==="c") return celsius;
-  if(toUnit==="f") return celsius*9/5+32;
-  if(toUnit==="k") return celsius+273.15;
+  if(fromUnit==="f")
+    celsius=(value-32)*5/9;
+
+  if(fromUnit==="k")
+    celsius=value-273.15;
+
+  if(toUnit==="c")
+    return celsius;
+
+  if(toUnit==="f")
+    return celsius*9/5+32;
+
+  if(toUnit==="k")
+    return celsius+273.15;
 
 }
 
 function convert(){
 
+  if(current==="vectores")
+    return;
+
   const value=parseFloat(amount.value);
 
   if(Number.isNaN(value)){
+
     result.textContent="—";
     return;
+
   }
 
   let converted;
@@ -720,54 +1063,86 @@ function convert(){
 
     const base=units[current].base;
 
-    converted=value*base[from.value]/base[to.value];
+    converted=
+      value*base[from.value]/base[to.value];
 
   }
 
-  const toName=from.options[to.selectedIndex].text;
+  const toName=
+    to.options[to.selectedIndex].text;
 
-  const formatted=new Intl.NumberFormat("es-CO",{
-    maximumFractionDigits:10
-  }).format(converted);
+  const formatted=
+    new Intl.NumberFormat("es-CO",{
+      maximumFractionDigits:10
+    }).format(converted);
 
-  result.textContent=formatted+" "+toName;
+  result.textContent=
+    formatted+" "+toName;
 
 }
 
 function saveHistory(){
 
+  if(current==="vectores")
+    return;
+
   const value=parseFloat(amount.value);
 
-  if(Number.isNaN(value)) return;
+  if(Number.isNaN(value))
+    return;
 
   const data=units[current];
 
-  const fromName=from.options[from.selectedIndex].text;
-  const toName=to.options[to.selectedIndex].text;
+  const fromName=
+    from.options[from.selectedIndex].text;
+
+  const toName=
+    to.options[to.selectedIndex].text;
 
   let converted;
 
   if(current==="temperatura"){
-    converted=temperatureConvert(value,from.value,to.value);
+
+    converted=
+      temperatureConvert(
+        value,
+        from.value,
+        to.value
+      );
+
   }else{
-    converted=value*data.base[from.value]/data.base[to.value];
+
+    converted=
+      value*data.base[from.value]/data.base[to.value];
+
   }
 
   const item={
-    text:`${value} ${fromName} → ${converted} ${toName}`,
-    date:new Date().toLocaleTimeString("es-CO",{
-      hour:"2-digit",
-      minute:"2-digit"
-    })
+
+    text:
+      `${value} ${fromName} → ${converted} ${toName}`,
+
+    date:
+      new Date().toLocaleTimeString("es-CO",{
+        hour:"2-digit",
+        minute:"2-digit"
+      })
+
   };
 
-  let history=JSON.parse(localStorage.getItem("convertiHistory")||"[]");
+  let history=
+    JSON.parse(
+      localStorage.getItem("convertiHistory")||"[]"
+    );
 
   history.unshift(item);
 
   history=history.slice(0,10);
 
-  localStorage.setItem("convertiHistory",JSON.stringify(history));
+  localStorage.setItem(
+    "convertiHistory",
+    JSON.stringify(history)
+  );
 
   renderHistory();
 
@@ -775,27 +1150,207 @@ function saveHistory(){
 
 function renderHistory(){
 
-  let history=JSON.parse(localStorage.getItem("convertiHistory")||"[]");
+  let history=
+    JSON.parse(
+      localStorage.getItem("convertiHistory")||"[]"
+    );
 
   if(!history.length){
 
     historyBox.innerHTML=
-      `<div class="empty">Tus conversiones recientes aparecerán aquí.</div>`;
+      `<div class="empty">
+        Tus conversiones recientes aparecerán aquí.
+      </div>`;
 
     return;
 
   }
 
-  historyBox.innerHTML=history.map(item=>
-    `<div class="history-item">
-      <strong>${item.text}</strong>
-      <span>${item.date}</span>
-    </div>`
-  ).join("");
+  historyBox.innerHTML=
+    history.map(item=>
+      `<div class="history-item">
+        <strong>${item.text}</strong>
+        <span>${item.date}</span>
+      </div>`
+    ).join("");
 
 }
 
+/* VECTORES */
+
+function getVectorValues(){
+
+  const ax=parseFloat(
+    document.getElementById("ax").value
+  ) || 0;
+
+  const ay=parseFloat(
+    document.getElementById("ay").value
+  ) || 0;
+
+  const az=parseFloat(
+    document.getElementById("az").value
+  ) || 0;
+
+  const bx=parseFloat(
+    document.getElementById("bx").value
+  ) || 0;
+
+  const by=parseFloat(
+    document.getElementById("by").value
+  ) || 0;
+
+  const bz=parseFloat(
+    document.getElementById("bz").value
+  ) || 0;
+
+  return {
+    A:[ax,ay,az],
+    B:[bx,by,bz]
+  };
+
+}
+
+function formatNumber(number){
+
+  if(Number.isInteger(number))
+    return number;
+
+  return Number(number.toFixed(10));
+
+}
+
+function formatVector(vector){
+
+  if(vectorDimension===2){
+
+    return `(${formatNumber(vector[0])}, ${formatNumber(vector[1])})`;
+
+  }
+
+  return `(${formatNumber(vector[0])}, ${formatNumber(vector[1])}, ${formatNumber(vector[2])})`;
+
+}
+
+function vectorOperation(operation){
+
+  const vectors=getVectorValues();
+
+  const A=vectors.A;
+  const B=vectors.B;
+
+  let answer=[];
+
+  if(operation==="sum"){
+
+    answer=[
+      A[0]+B[0],
+      A[1]+B[1],
+      A[2]+B[2]
+    ];
+
+  }
+
+  if(operation==="subtract"){
+
+    answer=[
+      A[0]-B[0],
+      A[1]-B[1],
+      A[2]-B[2]
+    ];
+
+  }
+
+  if(operation==="multiply"){
+
+    answer=[
+      A[0]*B[0],
+      A[1]*B[1],
+      A[2]*B[2]
+    ];
+
+  }
+
+  if(operation==="divide"){
+
+    if(
+      B[0]===0 ||
+      B[1]===0 ||
+      (vectorDimension===3 && B[2]===0)
+    ){
+
+      document.getElementById("vectorResult").textContent=
+        "No se puede dividir entre 0";
+
+      return;
+
+    }
+
+    answer=[
+      A[0]/B[0],
+      A[1]/B[1],
+      A[2]/B[2]
+    ];
+
+  }
+
+  document.getElementById("vectorResult").textContent=
+    formatVector(answer);
+
+}
+
+function setVectorDimension(dimension){
+
+  vectorDimension=dimension;
+
+  const zInputs=
+    document.querySelectorAll(".vector-z");
+
+  zInputs.forEach(element=>{
+
+    element.style.display=
+      dimension===3 ? "block":"none";
+
+  });
+
+  document.getElementById("mode2D")
+    .classList.toggle("active",dimension===2);
+
+  document.getElementById("mode3D")
+    .classList.toggle("active",dimension===3);
+
+  document.getElementById("vectorResult").textContent=
+    "Selecciona una operación";
+
+}
+
+document.getElementById("mode2D").onclick=()=>{
+  setVectorDimension(2);
+};
+
+document.getElementById("mode3D").onclick=()=>{
+  setVectorDimension(3);
+};
+
+document.getElementById("clearVectors").onclick=()=>{
+
+  document.getElementById("ax").value=0;
+  document.getElementById("ay").value=0;
+  document.getElementById("az").value=0;
+
+  document.getElementById("bx").value=0;
+  document.getElementById("by").value=0;
+  document.getElementById("bz").value=0;
+
+  document.getElementById("vectorResult").textContent=
+    "Selecciona una operación";
+
+};
+
+/* CONVERSOR */
+
 from.addEventListener("change",convert);
+
 to.addEventListener("change",convert);
 
 amount.addEventListener("input",convert);
@@ -817,16 +1372,27 @@ document.getElementById("copy").onclick=async()=>{
 
   const text=result.textContent;
 
-  if(text==="—") return;
+  if(text==="—")
+    return;
 
   try{
+
     await navigator.clipboard.writeText(text);
-    document.getElementById("copy").textContent="¡Copiado!";
+
+    document.getElementById("copy").textContent=
+      "¡Copiado!";
+
     setTimeout(()=>{
-      document.getElementById("copy").textContent="Copiar";
+
+      document.getElementById("copy").textContent=
+        "Copiar";
+
     },1200);
+
   }catch(e){
+
     alert("Resultado: "+text);
+
   }
 
 };
@@ -834,6 +1400,7 @@ document.getElementById("copy").onclick=async()=>{
 document.getElementById("clear").onclick=()=>{
 
   localStorage.removeItem("convertiHistory");
+
   renderHistory();
 
 };
@@ -842,9 +1409,13 @@ document.getElementById("themeBtn").onclick=()=>{
 
   document.body.classList.toggle("dark");
 
-  const dark=document.body.classList.contains("dark");
+  const dark=
+    document.body.classList.contains("dark");
 
-  localStorage.setItem("convertiDark",dark);
+  localStorage.setItem(
+    "convertiDark",
+    dark
+  );
 
   document.getElementById("themeBtn").textContent=
     dark?"☀️":"🌙";
@@ -854,14 +1425,23 @@ document.getElementById("themeBtn").onclick=()=>{
 if(localStorage.getItem("convertiDark")==="true"){
 
   document.body.classList.add("dark");
-  document.getElementById("themeBtn").textContent="☀️";
+
+  document.getElementById("themeBtn").textContent=
+    "☀️";
 
 }
 
+/* INICIO */
+
 buildCategories();
+
 loadUnits();
+
 renderHistory();
+
 convert();
+
+setVectorDimension(2);
 
 </script>
 
