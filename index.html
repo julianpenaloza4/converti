@@ -3,342 +3,635 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Conversor de Unidades y Vectores</title>
+  <title>OmniCalc - Unidades y Vectores Pro</title>
+  <!-- Fuente Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
-    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root {
+      --bg: #090a0f;
+      --card-bg: rgba(18, 20, 29, 0.85);
+      --input-bg: #13151f;
+      --border: rgba(255, 255, 255, 0.08);
+      --red: #ef4444;
+      --red-hover: #dc2626;
+      --red-glow: rgba(239, 68, 68, 0.25);
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     body {
-      background-color: #f4f7f6;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(239, 68, 68, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(239, 68, 68, 0.08) 0px, transparent 50%);
+      color: var(--text);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      margin: 0;
       padding: 20px;
     }
-    .card {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-      border: 1px solid #000000;
+
+    .app-container {
       width: 100%;
-      max-width: 500px;
+      max-width: 600px;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
     }
-    h2 { 
-      text-align: center; 
-      color: #000000; 
-      margin-top: 0; 
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
     }
-    
+
+    .header .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
     /* Navegación por Pestañas */
     .tabs {
       display: flex;
-      margin-bottom: 20px;
-      border-bottom: 2px solid #000000;
+      background: var(--input-bg);
+      padding: 5px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
     }
+
     .tab-btn {
       flex: 1;
-      padding: 10px;
-      background: none;
+      padding: 12px;
+      background: transparent;
       border: none;
-      font-size: 15px;
-      font-weight: bold;
-      color: #666666;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 14px;
+      border-radius: 12px;
       cursor: pointer;
-      border-bottom: 3px solid transparent;
-      transition: all 0.3s;
     }
+
     .tab-btn.active {
-      color: #dc2626;
-      border-bottom-color: #dc2626;
+      background: var(--red);
+      color: #fff;
+      box-shadow: 0 4px 15px var(--red-glow);
     }
 
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    .form-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 6px; font-weight: 600; color: #000000; font-size: 14px; }
-    
+    /* Layout & Inputs */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
     input, select {
       width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #000000;
-      border-radius: 6px;
-      font-size: 15px;
-      background-color: #ffffff;
-      color: #000000;
+      padding: 12px 14px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px var(--red-glow);
     }
 
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 10px;
     }
 
-    button.btn-calc {
+    /* Botones */
+    .btn-main {
       width: 100%;
-      background-color: #dc2626;
-      color: white;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--red), #b91c1c);
+      color: #fff;
       border: none;
-      padding: 12px;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: bold;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
       cursor: pointer;
       margin-top: 10px;
-      transition: background 0.2s;
+      box-shadow: 0 6px 20px var(--red-glow);
     }
-    button.btn-calc:hover { 
-      background-color: #991b1b; 
+
+    .btn-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
     }
-    
-    .result {
-      margin-top: 18px;
-      padding: 15px;
-      background: #fef2f2;
-      border-left: 5px solid #dc2626;
-      border-radius: 4px;
-      font-size: 16px;
-      color: #000000;
+
+    .btn-main:active {
+      transform: translateY(0);
+    }
+
+    .btn-swap {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    .btn-swap:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* Resultados */
+    .result-card {
+      margin-top: 20px;
+      background: rgba(239, 68, 68, 0.04);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-left: 4px solid var(--red);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .result-card .res-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--red);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .result-card .res-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      word-break: break-all;
+    }
+
+    .result-card .res-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 6px;
       line-height: 1.5;
     }
-    .sub-title {
-      font-weight: bold;
-      margin-top: 15px;
-      margin-bottom: 8px;
-      color: #dc2626;
-      border-bottom: 1px solid #000000;
-      padding-bottom: 4px;
+
+    .section-tag {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--red);
+      margin: 16px 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
   </style>
 </head>
 <body>
 
-<div class="card">
-  <h2>Física & Matemáticas</h2>
-  
-  <!-- Navegación -->
-  <div class="tabs">
-    <button class="tab-btn active" onclick="cambiarPestana('unidades', event)">Unidades</button>
-    <button class="tab-btn" onclick="cambiarPestana('vectores', event)">Vectores</button>
+<div class="app-container">
+  <div class="header">
+    <span class="badge">Suite Científica</span>
+    <h1>Conversor & Vectores Pro</h1>
   </div>
 
-  <!-- PESTAÑA 1: UNIDADES -->
+  <!-- Pestañas -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('unidades', event)">📏 Unidades</button>
+    <button class="tab-btn" onclick="switchTab('vectores', event)">📐 Vectores</button>
+  </div>
+
+  <!-- ================= PESTAÑA UNIDADES ================= -->
   <div id="unidades" class="tab-content active">
     <div class="form-group">
-      <label for="categoria">Categoría:</label>
-      <select id="categoria" onchange="actualizarUnidades()">
+      <label>Categoría</label>
+      <select id="unitCat" onchange="loadCategoryUnits()">
         <option value="longitud">Longitud</option>
-        <option value="temperatura">Temperatura</option>
         <option value="masa">Masa / Peso</option>
+        <option value="volumen">Volumen</option>
+        <option value="area">Área</option>
+        <option value="velocidad">Velocidad</option>
+        <option value="tiempo">Tiempo</option>
+        <option value="temperatura">Temperatura</option>
+        <option value="presion">Presión</option>
+        <option value="almacenamiento">Datos Digitales</option>
+        <option value="energia">Energía</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label for="valor">Valor a convertir:</label>
-      <input type="number" id="valor" value="1" step="any">
+      <label>Valor de Entrada</label>
+      <input type="number" id="unitVal" value="1" step="any" oninput="convertUnits()">
     </div>
 
-    <div class="grid-2">
+    <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: start;">
       <div class="form-group">
-        <label for="deUnidad">De:</label>
-        <select id="deUnidad"></select>
+        <label>De</label>
+        <select id="unitFrom" onchange="convertUnits()"></select>
       </div>
 
+      <button class="btn-swap" onclick="swapUnits()" title="Intercambiar unidades">⇄</button>
+
       <div class="form-group">
-        <label for="aUnidad">A:</label>
-        <select id="aUnidad"></select>
+        <label>A</label>
+        <select id="unitTo" onchange="convertUnits()"></select>
       </div>
     </div>
 
-    <button class="btn-calc" onclick="convertirUnidades()">Convertir</button>
-    <div id="resUnidades" class="result">Selecciona los valores y presiona Convertir.</div>
+    <div class="result-card">
+      <div class="res-title">Resultado de Conversión</div>
+      <div id="resUnitVal" class="res-value">1.00</div>
+      <div id="resUnitFormula" class="res-sub">Fórmula en tiempo real</div>
+    </div>
   </div>
 
-  <!-- PESTAÑA 2: VECTORES -->
+  <!-- ================= PESTAÑA VECTORES ================= -->
   <div id="vectores" class="tab-content">
-    <div class="form-group">
-      <label for="modoVector">Operación con Vectores:</label>
-      <select id="modoVector" onchange="cambiarModoVector()">
-        <option value="polarACartesiano">Polar a Cartesiano (M, θ → X, Y)</option>
-        <option value="cartesianoAPolar">Cartesiano a Polar (X, Y → M, θ)</option>
-        <option value="sumaVectores">Suma de 2 Vectores (V1 + V2)</option>
-      </select>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Dimensión</label>
+        <select id="vecDim" onchange="updateVectorFields()">
+          <option value="2d">2D (X, Y)</option>
+          <option value="3d">3D (X, Y, Z)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Operación</label>
+        <select id="vecOp" onchange="updateVectorFields()">
+          <option value="add">Suma (A + B)</option>
+          <option value="sub">Resta (A - B)</option>
+          <option value="mult">Mult. Escalar (k · A)</option>
+          <option value="div">Div. Escalar (A / k)</option>
+          <option value="dot">Producto Punto (A · B)</option>
+          <option value="cross">Producto Cruz (A × B)</option>
+        </select>
+      </div>
     </div>
 
-    <!-- Campos Dinámicos para Vectores -->
-    <div id="camposVector"></div>
+    <!-- Vector A -->
+    <div class="section-tag">Vector A</div>
+    <div class="grid-3" id="vecAContainer">
+      <input type="number" id="ax" placeholder="Ax" value="3" step="any">
+      <input type="number" id="ay" placeholder="Ay" value="4" step="any">
+      <input type="number" id="az" placeholder="Az" value="0" step="any" style="display:none;">
+    </div>
 
-    <button class="btn-calc" onclick="calcularVectores()">Calcular Vector</button>
-    <div id="resVectores" class="result">Ingresa los datos del vector.</div>
+    <!-- Vector B o Escalar k -->
+    <div id="secondOperandGroup">
+      <div class="section-tag" id="vecBLabel">Vector B</div>
+      <div class="grid-3" id="vecBContainer">
+        <input type="number" id="bx" placeholder="Bx" value="1" step="any">
+        <input type="number" id="by" placeholder="By" value="2" step="any">
+        <input type="number" id="bz" placeholder="Bz" value="0" step="any" style="display:none;">
+      </div>
+
+      <div class="form-group" id="scalarContainer" style="display:none;">
+        <label>Escalar (k)</label>
+        <input type="number" id="scalarK" value="2" step="any">
+      </div>
+    </div>
+
+    <button class="btn-main" onclick="calculateVectors()">Calcular Operación</button>
+
+    <div class="result-card">
+      <div class="res-title">Resultado Vectorial</div>
+      <div id="resVecMain" class="res-value">Esperando datos...</div>
+      <div id="resVecDetails" class="res-sub">Detalles y propiedades avanzadas</div>
+    </div>
   </div>
 </div>
 
 <script>
-  // ==================== CÓDIGO DE UNIDADES ====================
-  const unidades = {
+  // ================= DICCIONARIO COMPLETO DE UNIDADES =================
+  const unitsData = {
     longitud: {
-      'm': { nombre: 'Metros (m)', factor: 1 },
-      'km': { nombre: 'Kilómetros (km)', factor: 1000 },
-      'cm': { nombre: 'Centímetros (cm)', factor: 0.01 },
-      'mm': { nombre: 'Milímetros (mm)', factor: 0.001 },
-      'mi': { nombre: 'Millas (mi)', factor: 1609.34 },
-      'ft': { nombre: 'Pies (ft)', factor: 0.3048 },
-      'in': { nombre: 'Pulgadas (in)', factor: 0.0254 }
+      'm': { n: 'Metros (m)', f: 1 },
+      'km': { n: 'Kilómetros (km)', f: 1000 },
+      'cm': { n: 'Centímetros (cm)', f: 0.01 },
+      'mm': { n: 'Milímetros (mm)', f: 0.001 },
+      'mi': { n: 'Millas (mi)', f: 1609.344 },
+      'yd': { n: 'Yardas (yd)', f: 0.9144 },
+      'ft': { n: 'Pies (ft)', f: 0.3048 },
+      'in': { n: 'Pulgadas (in)', f: 0.0254 },
+      'NM': { n: 'Millas Náuticas', f: 1852 }
     },
     masa: {
-      'kg': { nombre: 'Kilogramos (kg)', factor: 1 },
-      'g': { nombre: 'Gramos (g)', factor: 0.001 },
-      'lb': { nombre: 'Libras (lb)', factor: 0.453592 },
-      'oz': { nombre: 'Onzas (oz)', factor: 0.0283495 }
+      'kg': { n: 'Kilogramos (kg)', f: 1 },
+      'g': { n: 'Gramos (g)', f: 0.001 },
+      'mg': { n: 'Miligramos (mg)', f: 0.000001 },
+      'lb': { n: 'Libras (lb)', f: 0.45359237 },
+      'oz': { n: 'Onzas (oz)', f: 0.02834952 },
+      't': { n: 'Toneladas (t)', f: 1000 }
+    },
+    volumen: {
+      'l': { n: 'Litros (L)', f: 1 },
+      'ml': { n: 'Mililitros (mL)', f: 0.001 },
+      'm3': { n: 'Metros cúbicos (m³)', f: 1000 },
+      'gal': { n: 'Galones US (gal)', f: 3.78541 },
+      'floz': { n: 'Onzas líquidas', f: 0.0295735 }
+    },
+    area: {
+      'm2': { n: 'Metros cuadrados (m²)', f: 1 },
+      'km2': { n: 'Km cuadrados (km²)', f: 1000000 },
+      'cm2': { n: 'Cm cuadrados (cm²)', f: 0.0001 },
+      'ha': { n: 'Hectáreas (ha)', f: 10000 },
+      'acre': { n: 'Acres', f: 4046.86 }
+    },
+    velocidad: {
+      'ms': { n: 'Metros/seg (m/s)', f: 1 },
+      'kmh': { n: 'Km/hora (km/h)', f: 0.277778 },
+      'mph': { n: 'Millas/hora (mph)', f: 0.44704 },
+      'kt': { n: 'Nudos (kt)', f: 0.514444 }
+    },
+    tiempo: {
+      's': { n: 'Segundos (s)', f: 1 },
+      'min': { n: 'Minutos (min)', f: 60 },
+      'h': { n: 'Horas (h)', f: 3600 },
+      'd': { n: 'Días (d)', f: 86400 },
+      'wk': { n: 'Semanas', f: 604800 },
+      'yr': { n: 'Años (365d)', f: 31536000 }
     },
     temperatura: {
-      'C': { nombre: 'Celsius (°C)' },
-      'F': { nombre: 'Fahrenheit (°F)' },
-      'K': { nombre: 'Kelvin (K)' }
+      'C': { n: 'Celsius (°C)' },
+      'F': { n: 'Fahrenheit (°F)' },
+      'K': { n: 'Kelvin (K)' }
+    },
+    presion: {
+      'pa': { n: 'Pascales (Pa)', f: 1 },
+      'kpa': { n: 'Kilopascales (kPa)', f: 1000 },
+      'bar': { n: 'Bar', f: 100000 },
+      'psi': { n: 'PSI', f: 6894.76 },
+      'atm': { n: 'Atmósferas (atm)', f: 101325 }
+    },
+    almacenamiento: {
+      'b': { n: 'Bytes (B)', f: 1 },
+      'kb': { n: 'Kilabytes (KB)', f: 1024 },
+      'mb': { n: 'Megabytes (MB)', f: 1048576 },
+      'gb': { n: 'Gigabytes (GB)', f: 1073741824 },
+      'tb': { n: 'Terabytes (TB)', f: 1099511627776 }
+    },
+    energia: {
+      'j': { n: 'Joules (J)', f: 1 },
+      'kj': { n: 'Kilojoules (kJ)', f: 1000 },
+      'cal': { n: 'Calorías (cal)', f: 4.184 },
+      'kcal': { n: 'Kilocalorías (kcal)', f: 4184 },
+      'kwh': { n: 'Kilovatio-hora', f: 3600000 }
     }
   };
 
-  function actualizarUnidades() {
-    const cat = document.getElementById('categoria').value;
-    const deSelect = document.getElementById('deUnidad');
-    const aSelect = document.getElementById('aUnidad');
-    
-    deSelect.innerHTML = '';
-    aSelect.innerHTML = '';
+  // Cargar Unidades
+  function loadCategoryUnits() {
+    const cat = document.getElementById('unitCat').value;
+    const fromSel = document.getElementById('unitFrom');
+    const toSel = document.getElementById('unitTo');
 
-    Object.keys(unidades[cat]).forEach(clave => {
-      deSelect.appendChild(new Option(unidades[cat][clave].nombre, clave));
-      aSelect.appendChild(new Option(unidades[cat][clave].nombre, clave));
+    fromSel.innerHTML = '';
+    toSel.innerHTML = '';
+
+    Object.keys(unitsData[cat]).forEach(key => {
+      fromSel.appendChild(new Option(unitsData[cat][key].n, key));
+      toSel.appendChild(new Option(unitsData[cat][key].n, key));
     });
 
-    if (aSelect.options.length > 1) aSelect.selectedIndex = 1;
+    if (toSel.options.length > 1) toSel.selectedIndex = 1;
+    convertUnits();
   }
 
-  function convertirUnidades() {
-    const cat = document.getElementById('categoria').value;
-    const val = parseFloat(document.getElementById('valor').value);
-    const de = document.getElementById('deUnidad').value;
-    const a = document.getElementById('aUnidad').value;
-    const resDiv = document.getElementById('resUnidades');
+  function swapUnits() {
+    const fromSel = document.getElementById('unitFrom');
+    const toSel = document.getElementById('unitTo');
+    const temp = fromSel.value;
+    fromSel.value = toSel.value;
+    toSel.value = temp;
+    convertUnits();
+  }
 
-    if (isNaN(val)) return resDiv.textContent = "Por favor ingresa un número válido.";
+  function convertUnits() {
+    const cat = document.getElementById('unitCat').value;
+    const val = parseFloat(document.getElementById('unitVal').value);
+    const from = document.getElementById('unitFrom').value;
+    const to = document.getElementById('unitTo').value;
 
-    let resultado = 0;
+    const resValEl = document.getElementById('resUnitVal');
+    const resFormEl = document.getElementById('resUnitFormula');
+
+    if (isNaN(val)) {
+      resValEl.textContent = "0";
+      resFormEl.textContent = "Ingresa un número válido";
+      return;
+    }
+
+    let res = 0;
     if (cat === 'temperatura') {
-      let celsius = val;
-      if (de === 'F') celsius = (val - 32) * 5 / 9;
-      if (de === 'K') celsius = val - 273.15;
+      let c = val;
+      if (from === 'F') c = (val - 32) * 5/9;
+      if (from === 'K') c = val - 273.15;
 
-      if (a === 'C') resultado = celsius;
-      else if (a === 'F') resultado = (celsius * 9 / 5) + 32;
-      else if (a === 'K') resultado = celsius + 273.15;
+      if (to === 'C') res = c;
+      else if (to === 'F') res = (c * 9/5) + 32;
+      else if (to === 'K') res = c + 273.15;
     } else {
-      const enBase = val * unidades[cat][de].factor;
-      resultado = enBase / unidades[cat][a].factor;
+      const baseVal = val * unitsData[cat][from].f;
+      res = baseVal / unitsData[cat][to].f;
     }
 
-    resDiv.innerHTML = `<strong>Resultado:</strong><br>${val} ${de} = <b>${resultado.toFixed(4)}</b> ${a}`;
+    resValEl.textContent = `${val} ${from} = ${res.toLocaleString(undefined, {maximumFractionDigits: 6})} ${to}`;
+    resFormEl.textContent = `Categoría: ${cat.toUpperCase()} | De ${unitsData[cat][from].n} a ${unitsData[cat][to].n}`;
   }
 
-  // ==================== CÓDIGO DE VECTORES ====================
-  function cambiarModoVector() {
-    const modo = document.getElementById('modoVector').value;
-    const contenedor = document.getElementById('camposVector');
+  // ================= LÓGICA DE VECTORES =================
+  function updateVectorFields() {
+    const dim = document.getElementById('vecDim').value;
+    const op = document.getElementById('vecOp').value;
 
-    if (modo === 'polarACartesiano') {
-      contenedor.innerHTML = `
-        <div class="grid-2">
-          <div class="form-group"><label>Magnitud (|V|):</label><input type="number" id="vMag" value="10" step="any"></div>
-          <div class="form-group"><label>Ángulo θ (°):</label><input type="number" id="vAng" value="45" step="any"></div>
-        </div>`;
-    } else if (modo === 'cartesianoAPolar') {
-      contenedor.innerHTML = `
-        <div class="grid-2">
-          <div class="form-group"><label>Componente X (Vx):</label><input type="number" id="vX" value="3" step="any"></div>
-          <div class="form-group"><label>Componente Y (Vy):</label><input type="number" id="vY" value="4" step="any"></div>
-        </div>`;
-    } else if (modo === 'sumaVectores') {
-      contenedor.innerHTML = `
-        <div class="sub-title">Vector A</div>
-        <div class="grid-2">
-          <div class="form-group"><label>Ax:</label><input type="number" id="ax" value="2" step="any"></div>
-          <div class="form-group"><label>Ay:</label><input type="number" id="ay" value="5" step="any"></div>
-        </div>
-        <div class="sub-title">Vector B</div>
-        <div class="grid-2">
-          <div class="form-group"><label>Bx:</label><input type="number" id="bx" value="4" step="any"></div>
-          <div class="form-group"><label>By:</label><input type="number" id="by" value="-1" step="any"></div>
-        </div>`;
+    const az = document.getElementById('az');
+    const bz = document.getElementById('bz');
+    const vecBContainer = document.getElementById('vecBContainer');
+    const vecBLabel = document.getElementById('vecBLabel');
+    const scalarContainer = document.getElementById('scalarContainer');
+
+    // 2D vs 3D
+    if (dim === '3d') {
+      az.style.display = 'block';
+      bz.style.display = 'block';
+    } else {
+      az.style.display = 'none';
+      bz.style.display = 'none';
+      az.value = '0';
+      bz.value = '0';
+    }
+
+    // Operación con Escalar vs Operación con Vector B
+    if (op === 'mult' || op === 'div') {
+      vecBContainer.style.display = 'none';
+      vecBLabel.style.display = 'none';
+      scalarContainer.style.display = 'block';
+    } else {
+      vecBContainer.style.display = 'grid';
+      vecBLabel.style.display = 'block';
+      scalarContainer.style.display = 'none';
+    }
+
+    calculateVectors();
+  }
+
+  function calculateVectors() {
+    const dim = document.getElementById('vecDim').value;
+    const op = document.getElementById('vecOp').value;
+
+    const ax = parseFloat(document.getElementById('ax').value) || 0;
+    const ay = parseFloat(document.getElementById('ay').value) || 0;
+    const az = dim === '3d' ? (parseFloat(document.getElementById('az').value) || 0) : 0;
+
+    const bx = parseFloat(document.getElementById('bx').value) || 0;
+    const by = parseFloat(document.getElementById('by').value) || 0;
+    const bz = dim === '3d' ? (parseFloat(document.getElementById('bz').value) || 0) : 0;
+
+    const k = parseFloat(document.getElementById('scalarK').value) || 1;
+
+    const mainRes = document.getElementById('resVecMain');
+    const detailsRes = document.getElementById('resVecDetails');
+
+    let rx = 0, ry = 0, rz = 0, scalarResult = null;
+
+    if (op === 'add') {
+      rx = ax + bx; ry = ay + by; rz = az + bz;
+    } else if (op === 'sub') {
+      rx = ax - bx; ry = ay - by; rz = az - bz;
+    } else if (op === 'mult') {
+      rx = ax * k; ry = ay * k; rz = az * k;
+    } else if (op === 'div') {
+      if (k === 0) {
+        mainRes.textContent = "Error: División por cero";
+        detailsRes.textContent = "";
+        return;
+      }
+      rx = ax / k; ry = ay / k; rz = az / k;
+    } else if (op === 'dot') {
+      scalarResult = (ax * bx) + (ay * by) + (az * bz);
+    } else if (op === 'cross') {
+      if (dim === '2d') {
+        scalarResult = (ax * by) - (ay * bx); // Componente Z resultante
+      } else {
+        rx = (ay * bz) - (az * by);
+        ry = (az * bx) - (ax * bz);
+        rz = (ax * by) - (ay * bx);
+      }
+    }
+
+    // Mostrar Resultados
+    if (scalarResult !== null) {
+      if (op === 'cross' && dim === '2d') {
+        mainRes.textContent = `Magnitud Z = ${scalarResult.toFixed(4)}`;
+        detailsRes.innerHTML = `Producto Cruz en 2D genera un vector perpendicular en Z: <b>(0, 0, ${scalarResult.toFixed(2)})</b>`;
+      } else {
+        mainRes.textContent = `A · B = ${scalarResult.toFixed(4)}`;
+        
+        // Ángulo entre vectores para producto punto
+        const magA = Math.sqrt(ax*ax + ay*ay + az*az);
+        const magB = Math.sqrt(bx*bx + by*by + bz*bz);
+        let angleStr = "";
+        if (magA > 0 && magB > 0) {
+          const cosTheta = Math.max(-1, Math.min(1, scalarResult / (magA * magB)));
+          const angleDeg = Math.acos(cosTheta) * (180 / Math.PI);
+          angleStr = `<br>Ángulo entre A y B (θ): <b>${angleDeg.toFixed(2)}°</b>`;
+        }
+        detailsRes.innerHTML = `Magnitud |A| = ${magA.toFixed(2)} | Magnitud |B| = ${magB.toFixed(2)} ${angleStr}`;
+      }
+    } else {
+      const magR = Math.sqrt(rx*rx + ry*ry + rz*rz);
+      
+      let vecStr = dim === '3d' 
+        ? `R = (${rx.toFixed(2)}, ${ry.toFixed(2)}, ${rz.toFixed(2)})`
+        : `R = (${rx.toFixed(2)}, ${ry.toFixed(2)})`;
+
+      mainRes.textContent = vecStr;
+
+      let unitVec = magR > 0 
+        ? `(${ (rx/magR).toFixed(2) }i + ${ (ry/magR).toFixed(2) }j ${dim === '3d' ? '+ ' + (rz/magR).toFixed(2) + 'k' : ''})`
+        : "N/A";
+
+      let extraAngle = "";
+      if (dim === '2d' && magR > 0) {
+        let angDeg = Math.atan2(ry, rx) * (180 / Math.PI);
+        if (angDeg < 0) angDeg += 360;
+        extraAngle = `<br>Dirección (θ): <b>${angDeg.toFixed(2)}°</b>`;
+      }
+
+      detailsRes.innerHTML = `
+        Magnitud |R| = <b>${magR.toFixed(4)}</b> ${extraAngle}<br>
+        Vector Unitario û = <b>${unitVec}</b>
+      `;
     }
   }
 
-  function calcularVectores() {
-    const modo = document.getElementById('modoVector').value;
-    const resDiv = document.getElementById('resVectores');
-
-    if (modo === 'polarACartesiano') {
-      const r = parseFloat(document.getElementById('vMag').value);
-      const angDeg = parseFloat(document.getElementById('vAng').value);
-      const rad = angDeg * (Math.PI / 180);
-
-      const vx = r * Math.cos(rad);
-      const vy = r * Math.sin(rad);
-
-      resDiv.innerHTML = `
-        <strong>Componentes Rectangulares:</strong><br>
-        Vx = <b>${vx.toFixed(4)}</b><br>
-        Vy = <b>${vy.toFixed(4)}</b><br>
-        <em>Forma vectorial: (${vx.toFixed(2)}i + ${vy.toFixed(2)}j)</em>`;
-    } 
-    else if (modo === 'cartesianoAPolar') {
-      const x = parseFloat(document.getElementById('vX').value);
-      const y = parseFloat(document.getElementById('vY').value);
-
-      const r = Math.sqrt(x*x + y*y);
-      let angDeg = Math.atan2(y, x) * (180 / Math.PI);
-      if (angDeg < 0) angDeg += 360;
-
-      resDiv.innerHTML = `
-        <strong>Forma Polar:</strong><br>
-        Magnitud (|V|) = <b>${r.toFixed(4)}</b><br>
-        Ángulo (θ) = <b>${angDeg.toFixed(2)}°</b>`;
-    } 
-    else if (modo === 'sumaVectores') {
-      const ax = parseFloat(document.getElementById('ax').value);
-      const ay = parseFloat(document.getElementById('ay').value);
-      const bx = parseFloat(document.getElementById('bx').value);
-      const by = parseFloat(document.getElementById('by').value);
-
-      const rx = ax + bx;
-      const ry = ay + by;
-      const magR = Math.sqrt(rx*rx + ry*ry);
-      let angR = Math.atan2(ry, rx) * (180 / Math.PI);
-      if (angR < 0) angR += 360;
-
-      const prodEscalar = (ax * bx) + (ay * by);
-
-      resDiv.innerHTML = `
-        <strong>Vector Resultante (R = A + B):</strong><br>
-        Rx = <b>${rx.toFixed(2)}</b>, Ry = <b>${ry.toFixed(2)}</b><br>
-        Magnitud |R| = <b>${magR.toFixed(4)}</b><br>
-        Ángulo θ = <b>${angR.toFixed(2)}°</b><br><br>
-        <strong>Producto Escalar (A · B):</strong> <b>${prodEscalar.toFixed(2)}</b>`;
-    }
-  }
-
-  // ==================== NAVEGACIÓN Y CARGA ====================
-  function cambiarPestana(nombrePestana, evt) {
+  // ================= NAVEGACIÓN DE PESTAÑAS =================
+  function switchTab(tabId, evt) {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    
-    document.getElementById(nombrePestana).classList.add('active');
+
+    document.getElementById(tabId).classList.add('active');
     evt.currentTarget.classList.add('active');
   }
 
-  // Inicializar la interfaz
-  actualizarUnidades();
-  cambiarModoVector();
+  // Inicialización
+  loadCategoryUnits();
+  updateVectorFields();
 </script>
 
 </body>
