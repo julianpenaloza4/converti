@@ -3,110 +3,218 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Conversor de Unidades y Vectores</title>
+  <title>Conversor Avanzado - Física & Matemáticas</title>
+  <!-- Fuente moderna -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
-    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    :root {
+      --bg-color: #09090b;
+      --card-bg: rgba(20, 20, 23, 0.75);
+      --accent-red: #ef4444;
+      --accent-red-hover: #dc2626;
+      --accent-red-glow: rgba(239, 68, 68, 0.35);
+      --input-bg: #18181b;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-focus: #ef4444;
+      --text-main: #f4f4f5;
+      --text-muted: #a1a1aa;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: all 0.2s ease;
+    }
+
     body {
-      background-color: #f4f7f6;
+      background-color: var(--bg-color);
+      /* Destellos rojos ambientales en el fondo */
+      background-image: 
+        radial-gradient(at 15% 15%, rgba(239, 68, 68, 0.12) 0px, transparent 45%),
+        radial-gradient(at 85% 85%, rgba(239, 68, 68, 0.08) 0px, transparent 45%);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       margin: 0;
       padding: 20px;
+      color: var(--text-main);
     }
+
+    /* Tarjeta Glassmorphism */
     .card {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 32px;
+      border-radius: 24px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                  0 0 30px rgba(239, 68, 68, 0.05);
       width: 100%;
-      max-width: 500px;
+      max-width: 480px;
     }
-    h2 { text-align: center; color: #111827; margin-top: 0; }
-    
-    /* Navegación por Pestañas */
-    .tabs {
+
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .header h2 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--accent-red));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header p {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Tabs Segmentados Estilo Píldora */
+    .tabs-track {
       display: flex;
-      margin-bottom: 20px;
-      border-bottom: 2px solid #e0e0e0;
+      background: var(--input-bg);
+      padding: 4px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 24px;
     }
+
     .tab-btn {
       flex: 1;
       padding: 10px;
-      background: none;
+      background: transparent;
       border: none;
-      font-size: 15px;
-      font-weight: bold;
-      color: #6b7280;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
       cursor: pointer;
-      border-bottom: 3px solid transparent;
-      transition: all 0.3s;
+      border-radius: 10px;
     }
+
     .tab-btn.active {
-      color: #dc2626;
-      border-bottom-color: #dc2626;
+      background: var(--accent-red);
+      color: #ffffff;
+      box-shadow: 0 4px 15px var(--accent-red-glow);
     }
 
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    .form-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 6px; font-weight: 600; color: #1f2937; font-size: 14px; }
+    /* Campos de Entrada */
+    .form-group { margin-bottom: 16px; }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
     input, select {
       width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 15px;
+      padding: 12px 14px;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      font-size: 14px;
+      color: var(--text-main);
+      outline: none;
     }
+
+    input:focus, select:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--accent-red-glow);
+    }
+
+    select option {
+      background-color: #18181b;
+      color: var(--text-main);
+    }
+
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 12px;
     }
+
+    /* Botón Principal */
     button.btn-calc {
       width: 100%;
-      background-color: #dc2626;
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
       color: white;
       border: none;
-      padding: 12px;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: bold;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
       cursor: pointer;
       margin-top: 10px;
-      transition: background 0.2s;
+      box-shadow: 0 4px 20px var(--accent-red-glow);
     }
-    button.btn-calc:hover { background-color: #991b1b; }
-    
+
+    button.btn-calc:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(239, 68, 68, 0.5);
+    }
+
+    button.btn-calc:active {
+      transform: translateY(1px);
+    }
+
+    /* Área de Resultado */
     .result {
-      margin-top: 18px;
-      padding: 15px;
-      background: #fef2f2;
-      border-left: 5px solid #dc2626;
-      border-radius: 4px;
-      font-size: 16px;
-      color: #991b1b;
-      line-height: 1.5;
+      margin-top: 20px;
+      padding: 16px;
+      background: rgba(239, 68, 68, 0.05);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-left: 4px solid var(--accent-red);
+      border-radius: 12px;
+      font-size: 14px;
+      color: var(--text-main);
+      line-height: 1.6;
     }
+
+    .result strong {
+      color: #ffffff;
+    }
+
+    .result b {
+      color: var(--accent-red);
+      font-size: 16px;
+    }
+
     .sub-title {
-      font-weight: bold;
-      margin-top: 15px;
-      margin-bottom: 8px;
-      color: #111827;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 4px;
+      font-weight: 600;
+      font-size: 13px;
+      margin-top: 16px;
+      margin-bottom: 10px;
+      color: var(--accent-red);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
   </style>
 </head>
 <body>
 
 <div class="card">
-  <h2>Física & Matemáticas</h2>
+  <div class="header">
+    <h2>Física & Vectores</h2>
+    <p>Convertidor de precisión y cálculo vectorial</p>
+  </div>
   
-  <!-- Navegación -->
-  <div class="tabs">
+  <!-- Navegación por pestañas -->
+  <div class="tabs-track">
     <button class="tab-btn active" onclick="cambiarPestana('unidades', event)">Unidades</button>
     <button class="tab-btn" onclick="cambiarPestana('vectores', event)">Vectores</button>
   </div>
@@ -114,7 +222,7 @@
   <!-- PESTAÑA 1: UNIDADES -->
   <div id="unidades" class="tab-content active">
     <div class="form-group">
-      <label for="categoria">Categoría:</label>
+      <label for="categoria">Categoría</label>
       <select id="categoria" onchange="actualizarUnidades()">
         <option value="longitud">Longitud</option>
         <option value="temperatura">Temperatura</option>
@@ -123,30 +231,30 @@
     </div>
 
     <div class="form-group">
-      <label for="valor">Valor a convertir:</label>
+      <label for="valor">Valor a convertir</label>
       <input type="number" id="valor" value="1" step="any">
     </div>
 
     <div class="grid-2">
       <div class="form-group">
-        <label for="deUnidad">De:</label>
+        <label for="deUnidad">De</label>
         <select id="deUnidad"></select>
       </div>
 
       <div class="form-group">
-        <label for="aUnidad">A:</label>
+        <label for="aUnidad">A</label>
         <select id="aUnidad"></select>
       </div>
     </div>
 
-    <button class="btn-calc" onclick="convertirUnidades()">Convertir</button>
-    <div id="resUnidades" class="result">Selecciona los valores y presiona Convertir.</div>
+    <button class="btn-calc" onclick="convertirUnidades()">Convertir Ahora</button>
+    <div id="resUnidades" class="result">Ingresa los datos y presiona Convertir.</div>
   </div>
 
   <!-- PESTAÑA 2: VECTORES -->
   <div id="vectores" class="tab-content">
     <div class="form-group">
-      <label for="modoVector">Operación con Vectores:</label>
+      <label for="modoVector">Operación vectorial</label>
       <select id="modoVector" onchange="cambiarModoVector()">
         <option value="polarACartesiano">Polar a Cartesiano (M, θ → X, Y)</option>
         <option value="cartesianoAPolar">Cartesiano a Polar (X, Y → M, θ)</option>
@@ -154,16 +262,16 @@
       </select>
     </div>
 
-    <!-- Campos Dinámicos para Vectores -->
+    <!-- Campos Dinámicos -->
     <div id="camposVector"></div>
 
     <button class="btn-calc" onclick="calcularVectores()">Calcular Vector</button>
-    <div id="resVectores" class="result">Ingresa los datos del vector.</div>
+    <div id="resVectores" class="result">Ingresa los parámetros del vector.</div>
   </div>
 </div>
 
 <script>
-  // ==================== CÓDIGO DE UNIDADES ====================
+  // ==================== LÓGICA DE UNIDADES ====================
   const unidades = {
     longitud: {
       'm': { nombre: 'Metros (m)', factor: 1 },
@@ -229,7 +337,7 @@
     resDiv.innerHTML = `<strong>Resultado:</strong><br>${val} ${de} = <b>${resultado.toFixed(4)}</b> ${a}`;
   }
 
-  // ==================== CÓDIGO DE VECTORES ====================
+  // ==================== LÓGICA DE VECTORES ====================
   function cambiarModoVector() {
     const modo = document.getElementById('modoVector').value;
     const contenedor = document.getElementById('camposVector');
@@ -237,26 +345,26 @@
     if (modo === 'polarACartesiano') {
       contenedor.innerHTML = `
         <div class="grid-2">
-          <div class="form-group"><label>Magnitud (|V|):</label><input type="number" id="vMag" value="10" step="any"></div>
-          <div class="form-group"><label>Ángulo θ (°):</label><input type="number" id="vAng" value="45" step="any"></div>
+          <div class="form-group"><label>Magnitud (|V|)</label><input type="number" id="vMag" value="10" step="any"></div>
+          <div class="form-group"><label>Ángulo θ (°)</label><input type="number" id="vAng" value="45" step="any"></div>
         </div>`;
     } else if (modo === 'cartesianoAPolar') {
       contenedor.innerHTML = `
         <div class="grid-2">
-          <div class="form-group"><label>Componente X (Vx):</label><input type="number" id="vX" value="3" step="any"></div>
-          <div class="form-group"><label>Componente Y (Vy):</label><input type="number" id="vY" value="4" step="any"></div>
+          <div class="form-group"><label>Componente X (Vx)</label><input type="number" id="vX" value="3" step="any"></div>
+          <div class="form-group"><label>Componente Y (Vy)</label><input type="number" id="vY" value="4" step="any"></div>
         </div>`;
     } else if (modo === 'sumaVectores') {
       contenedor.innerHTML = `
         <div class="sub-title">Vector A</div>
         <div class="grid-2">
-          <div class="form-group"><label>Ax:</label><input type="number" id="ax" value="2" step="any"></div>
-          <div class="form-group"><label>Ay:</label><input type="number" id="ay" value="5" step="any"></div>
+          <div class="form-group"><label>Ax</label><input type="number" id="ax" value="2" step="any"></div>
+          <div class="form-group"><label>Ay</label><input type="number" id="ay" value="5" step="any"></div>
         </div>
         <div class="sub-title">Vector B</div>
         <div class="grid-2">
-          <div class="form-group"><label>Bx:</label><input type="number" id="bx" value="4" step="any"></div>
-          <div class="form-group"><label>By:</label><input type="number" id="by" value="-1" step="any"></div>
+          <div class="form-group"><label>Bx</label><input type="number" id="bx" value="4" step="any"></div>
+          <div class="form-group"><label>By</label><input type="number" id="by" value="-1" step="any"></div>
         </div>`;
     }
   }
@@ -277,7 +385,7 @@
         <strong>Componentes Rectangulares:</strong><br>
         Vx = <b>${vx.toFixed(4)}</b><br>
         Vy = <b>${vy.toFixed(4)}</b><br>
-        <em>Forma vectorial: (${vx.toFixed(2)}i + ${vy.toFixed(2)}j)</em>`;
+        <span style="color: var(--text-muted); font-size: 13px;">Forma vectorial: (${vx.toFixed(2)}i + ${vy.toFixed(2)}j)</span>`;
     } 
     else if (modo === 'cartesianoAPolar') {
       const x = parseFloat(document.getElementById('vX').value);
@@ -315,7 +423,7 @@
     }
   }
 
-  // ==================== NAVEGACIÓN Y CARGA ====================
+  // ==================== NAVEGACIÓN ====================
   function cambiarPestana(nombrePestana, evt) {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -324,7 +432,7 @@
     evt.currentTarget.classList.add('active');
   }
 
-  // Inicializar la interfaz
+  // Inicialización
   actualizarUnidades();
   cambiarModoVector();
 </script>
